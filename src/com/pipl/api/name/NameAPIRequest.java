@@ -11,7 +11,6 @@ import org.apache.http.util.EntityUtils;
 import com.pipl.api.data.Utils;
 import com.pipl.api.data.fields.Name;
 
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -69,11 +68,13 @@ public class NameAPIRequest {
 		if (Utils.isNullOrEmpty(apiKey) && Utils.isNullOrEmpty(defaultApiKey)) {
 			throw new IllegalArgumentException("A valid API key is required");
 		}
-		if (!(firstName != null || lastName != null || middleName != null || rawName != null)) {
+		if (!(!Utils.isNullOrEmpty(firstName) || !Utils.isNullOrEmpty(lastName)
+				|| !Utils.isNullOrEmpty(middleName) || !Utils
+					.isNullOrEmpty(rawName))) {
 			throw new IllegalArgumentException("A name is missing");
 		}
-		if (rawName != null
-				&& (firstName != null || middleName != null || lastName != null)) {
+		if (!Utils.isNullOrEmpty(rawName)
+				&& (!Utils.isNullOrEmpty(firstName) || !Utils.isNullOrEmpty(middleName) || !Utils.isNullOrEmpty(lastName))) {
 			throw new IllegalArgumentException(
 					"Name should be provided raw or parsed, not both");
 		}

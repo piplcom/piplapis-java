@@ -81,8 +81,9 @@ public class DOB extends DisplayField {
 		return String.valueOf(age());
 	}
 
+	@Override
 	public String toString() {
-		return this.display();
+		return display();
 	}
 
 	/**

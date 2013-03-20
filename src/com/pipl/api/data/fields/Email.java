@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pipl.api.data.Utils;
 
 /**
  * An email address of a person with the md5 of the address, might come in some
@@ -151,7 +152,8 @@ public class Email extends Field {
 	}
 
 	public void setType(String type) {
-		if (type != null && !type.isEmpty()) {
+		if(!Utils.isNullOrEmpty(type))
+		{
 			validateType(type,types);
 			this.type = type;
 		}

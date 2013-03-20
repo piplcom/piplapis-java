@@ -50,7 +50,7 @@ public class ThumbnailAPI {
 	 * <blockquote>
 	 * 
 	 * <pre>
-	 * >>> ThumbnailAPI.generateThumbnailUrl(record.images.get(0).url, 100, 100, record.source.domain, true, api_key='samplekey');
+	 * >>> ThumbnailAPI.generateThumbnailUrl(record.images.get(0).url, 100, 100, record.source.domain, true, "samplekey");
 	 * "http://api.pipl.com/thumbnail/v2/?key=samplekey&favicon_domain=twitter.com&height=100&width=100&zoom_face=True&image_url=http%3A%2F%2Fa7.twimg.com%2Fa%2Fab76f.jpg"
 	 * <p/>
 	 * </pre>

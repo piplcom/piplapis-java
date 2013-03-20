@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.pipl.api.data.fields.Address;
+import com.pipl.api.data.fields.DOB;
 import com.pipl.api.data.fields.DisplayField;
+import com.pipl.api.data.fields.Name;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -137,6 +139,8 @@ public class Utils {
 				.excludeFieldsWithModifiers(Modifier.STATIC)
 				.excludeFieldsWithoutExposeAnnotation()
 				.registerTypeAdapter(Address.class, new DisplayField(null))
+				.registerTypeAdapter(DOB.class, new DisplayField(null))
+				.registerTypeAdapter(Name.class, new DisplayField(null))
 				.create();
 		return gson.toJson(object);
 	}

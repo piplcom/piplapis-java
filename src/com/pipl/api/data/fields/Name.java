@@ -1,6 +1,6 @@
 package com.pipl.api.data.fields;
 
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import com.pipl.api.data.Utils;
 /**
  * Name of a person.
  */
-public class Name extends Field {
+public class Name extends DisplayField {
 	/**
 	 * 
 	 */
@@ -132,6 +132,30 @@ public class Name extends Field {
 
 	public String getType() {
 		return type;
+	}
+
+	@Override
+	public String display() {
+		Object val;
+		ArrayList<String> existingAttrs = new ArrayList<String>();
+		for (String childAttr : Arrays.asList("prefix", "first", "middle",
+				"last", "suffix")) {
+			try {
+				val = getClass().getDeclaredField(childAttr).get(this);
+				if (val != null) {
+					existingAttrs.add(val.toString());
+				}
+			} catch (IllegalArgumentException | IllegalAccessException
+					| NoSuchFieldException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
+		return Utils.join(" ", existingAttrs);
+	}
+
+	@Override
+	public String toString() {
+		return display();
 	}
 
 	/**

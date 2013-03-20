@@ -385,10 +385,7 @@ public class SearchAPIRequest {
 				recordsFilter.getQueryParamsMatch(),
 				recordsFilter.getQueryPersonMatch());
 		if (params != null) {
-			String joinedStr = "";
-			for (String s : params)
-				joinedStr += s + " AND ";
-			filterRecordsBy.add(joinedStr.substring(0, joinedStr.length() - 5));
+			filterRecordsBy.add(Utils.join(" AND ", params));
 		}
 	}
 
@@ -505,11 +502,11 @@ public class SearchAPIRequest {
 	 * 
 	 * @param strictValidation
 	 *            `strictValidation` is a bool argument that's passed to the
-	 *            validate_query_params method.
+	 *            validateQueryParams method.
 	 * @return The response is returned as a SearchAPIResponse object.
 	 * @throws IllegalArgumentException
 	 *             Raises IllegalArgumentException (raised from
-	 *             validate_query_params)
+	 *             validateQueryParams)
 	 * @throws IOException
 	 *             IOException
 	 * @throws SearchAPIError
@@ -553,13 +550,13 @@ public class SearchAPIRequest {
 	 * 
 	 * @param strictValidation
 	 *            `strictValidation` is a bool argument that's passed to the
-	 *            validate_query_params method.
+	 *            validateQueryParams method.
 	 * @param searchAPICallBack
 	 *            a callback that will receive the response once the response is
 	 *            returned
 	 * @throws IllegalArgumentException
 	 *             Raises IllegalArgumentException (raised from
-	 *             validate_query_params)
+	 *             validateQueryParams)
 	 * @throws IOException
 	 *             IOException
 	 * @throws URISyntaxException

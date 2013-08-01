@@ -28,6 +28,8 @@ public class NameAPIRequest {
 	public static String defaultApiKey;
 	public static String USER_AGENT = "piplapis/java";
 	public static String BASE_URL = "http://api.pipl.com/name/v2/json/?";
+	// HTTPS is also supported:
+	//public static String BASE_URL = "https://api.pipl.com/name/v2/json/?";
 
 	private String apiKey;
 	private Name name;

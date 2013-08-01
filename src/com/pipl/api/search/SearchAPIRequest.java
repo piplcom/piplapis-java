@@ -40,6 +40,8 @@ public class SearchAPIRequest {
 	public static String defaultApiKey;
 	public static String USER_AGENT = "piplapis/java";
 	public static String BASE_URL = "http://api.pipl.com/search/v3/json/?";
+	// HTTPS is also supported:
+	//public static String BASE_URL = "https://api.pipl.com/search/v3/json/?";
 	private String apiKey;
 	private Person person;
 	private String queryParamsMode;

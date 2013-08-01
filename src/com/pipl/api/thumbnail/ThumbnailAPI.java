@@ -28,6 +28,8 @@ import com.pipl.api.data.fields.Image;
 public class ThumbnailAPI {
 	public static String defaultApiKey;
 	public static String BASE_URL = "http://api.pipl.com/thumbnail/v2/?";
+	// HTTPS is also supported:
+	//public static String BASE_URL = "https://api.pipl.com/thumbnail/v2/?";
 	public static int MAX_PIXELS = 500;
 
 	/**

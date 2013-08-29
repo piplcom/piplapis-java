@@ -8,6 +8,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.google.gson.JsonSyntaxException;
 import com.pipl.api.data.Source;
 import com.pipl.api.data.Utils;
 import com.pipl.api.data.containers.Person;
@@ -520,11 +521,13 @@ public class SearchAPIRequest {
 			throws SearchAPIError, IOException, URISyntaxException {
 		validateQueryParams(strictValidation);
 		HttpClient httpClient = new DefaultHttpClient();
+		HttpResponse httpResponse = null;
+		String responseBody = null;
 		try {
 			HttpGet httpGet = new HttpGet(url());
 			httpGet.setHeader("User-Agent", USER_AGENT);
-			HttpResponse httpResponse = httpClient.execute(httpGet);
-			String responseBody = EntityUtils
+			httpResponse = httpClient.execute(httpGet);
+			responseBody = EntityUtils
 					.toString(httpResponse.getEntity());
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				return (SearchAPIResponse) Utils.fromJson(responseBody,
@@ -534,6 +537,8 @@ public class SearchAPIRequest {
 						.fromJson(responseBody, SearchAPIError.class);
 				throw searchAPIError;
 			}
+		} catch (JsonSyntaxException e) {
+			throw new SearchAPIError(responseBody, httpResponse.getStatusLine().getStatusCode());
 		} finally {
 			httpClient.getConnectionManager().shutdown();
 		}

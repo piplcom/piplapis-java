@@ -603,7 +603,11 @@ public class SearchAPIRequest {
 		public void run() {
 			try {
 				searchAPICallBack.callback(send(strictValidation));
-			} catch (SearchAPIError | IOException | URISyntaxException e) {
+			} catch (SearchAPIError e) {
+				searchAPICallBack.errback(e);
+			} catch (IOException e) {
+				searchAPICallBack.errback(e);
+			} catch (URISyntaxException e) {
 				searchAPICallBack.errback(e);
 			}
 		}

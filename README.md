@@ -18,7 +18,9 @@ Installation
 
 * Import the piplapis jar file (can be found under `lib/`) or compile the source code (can be found under `src/main/java`)
 
-**Maven**
+Maven
+-----
+
 Add a dependency to `com.pipl.api:piplapis` in your pom.  (Note: 1.0.1 was the latest version.)
 
     <dependency>

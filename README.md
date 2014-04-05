@@ -16,7 +16,16 @@ Library Requirements
 Installation
 ------------
 
-* Import the piplapis jar file (can be found under `lib/`) or compile the source code (can be found under `src/`) 
+* Import the piplapis jar file (can be found under `lib/`) or compile the source code (can be found under `src/main/java`)
+
+**Maven**
+Add a dependency to `com.pipl.api:piplapis` in your pom.  (Note: 1.0.1 was the latest version.)
+
+    <dependency>
+      <groupId>com.pipl.api</groupId>
+      <artifactId>piplapis</artifactId>
+      <version>1.0.1</version>
+    </dependency>
 
 Getting Started & Code Snippets
 -------------------------------

@@ -1,10 +1,13 @@
 package com.pipl.api.search;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -22,6 +25,7 @@ import com.pipl.api.data.fields.Username;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -524,14 +528,33 @@ public class SearchAPIRequest {
 		HttpResponse httpResponse = null;
 		String responseBody = null;
 		try {
-			HttpGet httpGet = new HttpGet(url());
-			httpGet.setHeader("User-Agent", USER_AGENT);
-			httpResponse = httpClient.execute(httpGet);
+			HttpPost httpPost = new HttpPost(BASE_URL);
+			httpPost.setHeader("User-Agent", USER_AGENT);
+			StringBuilder params = new StringBuilder();
+			params.append("key=").append(apiKey == null ? defaultApiKey : apiKey);
+			params.append("&person=").append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
+			params.append("&query_params_mode=").append(queryParamsMode);
+			params.append("&exact_name=").append(String.valueOf(exactName));
+			params.append("&prioritize_records_by=").append(URLEncoder.encode(Utils.join(",", prioritizeRecordsBy), "UTF-8"));
+			params.append("&filterRecordsBy=").append(URLEncoder.encode(Utils.join(",", filterRecordsBy), "UTF-8"));
+			StringEntity body = new StringEntity(params.toString(), ContentType.APPLICATION_FORM_URLENCODED);
+			body.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			httpPost.setEntity(body);
+
+			httpResponse = httpClient.execute(httpPost);
 			responseBody = EntityUtils
-					.toString(httpResponse.getEntity());
+					.toString(httpResponse.getEntity(), "utf-8");
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				return (SearchAPIResponse) Utils.fromJson(responseBody,
-						SearchAPIResponse.class);
+				SearchAPIResponse searchAPIResponse = (SearchAPIResponse) Utils.fromJson(responseBody, SearchAPIResponse.class);
+				Header header = httpResponse.getFirstHeader("X-APIKey-QPS-Allotted");
+				if (header!=null) {
+					searchAPIResponse.setQpsAlloted(Integer.valueOf(header.getValue()));
+				}
+				header = httpResponse.getFirstHeader("X-APIKey-QPS-Current");
+				if (header!=null) {
+					searchAPIResponse.setQpsCurrent(Integer.valueOf(header.getValue()));
+				}
+				return searchAPIResponse;
 			} else {
 				SearchAPIError searchAPIError = (SearchAPIError) Utils
 						.fromJson(responseBody, SearchAPIError.class);

@@ -68,6 +68,8 @@ public class SearchAPIResponse implements Serializable {
     private ArrayList<Record> suggestedSearches;
 	@Expose
     private ArrayList<String> warnings;
+	private int qpsAlloted = -1;
+	private int qpsCurrent = -1;
 
     /**
      * @param query              A Person object with the query as interpreted by Pipl.
@@ -226,5 +228,21 @@ public class SearchAPIResponse implements Serializable {
     public ArrayList<String> getWarnings() {
         return warnings;
     }
+
+	public int getQpsAlloted() {
+		return qpsAlloted;
+	}
+
+	public void setQpsAlloted(int qpsAlloted) {
+		this.qpsAlloted = qpsAlloted;
+	}
+
+	public int getQpsCurrent() {
+		return qpsCurrent;
+	}
+
+	public void setQpsCurrent(int qpsCurrent) {
+		this.qpsCurrent = qpsCurrent;
+	}
 
 }

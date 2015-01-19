@@ -536,7 +536,7 @@ public class SearchAPIRequest {
 			params.append("&query_params_mode=").append(queryParamsMode);
 			params.append("&exact_name=").append(String.valueOf(exactName));
 			params.append("&prioritize_records_by=").append(URLEncoder.encode(Utils.join(",", prioritizeRecordsBy), "UTF-8"));
-			params.append("&filterRecordsBy=").append(URLEncoder.encode(Utils.join(",", filterRecordsBy), "UTF-8"));
+			params.append("&filter_records_by=").append(URLEncoder.encode(Utils.join(",", filterRecordsBy), "UTF-8"));
 			StringEntity body = new StringEntity(params.toString(), ContentType.APPLICATION_FORM_URLENCODED);
 			body.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
 			httpPost.setEntity(body);

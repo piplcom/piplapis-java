@@ -21,7 +21,7 @@ public class SearchConfiguration {
 	public String protocol = "http"; // https is also supported.
 	public String host = "api.pipl.com";
 	public String path = "/search/v4/";
-	public String apiKey = "samplekey";
+	public String apiKey = "sample_key";
 	public Float minimumProbability;
 	public String showSources;
 	public Boolean hideSponsored;

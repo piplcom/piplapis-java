@@ -10,7 +10,6 @@ Library Requirements
 --------------------
 
 * Google Gson, you can find it inside this project under `lib/google/` or download from [here](http://code.google.com/p/google-gson/downloads/list).
-* Apache HTTP Client, you can find it inside this project under `lib/apache/` or download from [here](http://www.apache.org/dist/httpcomponents/httpclient/binary/httpcomponents-client-4.2.3-bin.zip).
 * The library was tested on Java 7 but will probably work on earlier versions as well.
 
 Installation
@@ -24,10 +23,6 @@ Getting Started & Code Snippets
 **Pipl's Search API**
 * Getting started tutorial - [http://dev.pipl.com/docs/search_api/getstarted](http://dev.pipl.com/docs/search_api/getstarted)  
 * Code snippets - [http://dev.pipl.com/docs/search_api/code](http://dev.pipl.com/docs/search_api/code)  
-
-**Pipl's Thumbnail API**
-* Getting started tutorial - [http://dev.pipl.com/docs/thumbnail_api/getstarted](http://dev.pipl.com/docs/thumbnail_api/getstarted)  
-* Code snippets - [http://dev.pipl.com/docs/thumbnail_api/code](http://dev.pipl.com/docs/thumbnail_api/code)  
 
 Credits
 -------

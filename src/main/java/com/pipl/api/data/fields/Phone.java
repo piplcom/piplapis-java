@@ -137,4 +137,21 @@ public class Phone extends AbstractField {
 		return displayInternational;
 	}
 
+	@Override
+	public String toString() {
+		if (displayInternational!=null)
+			return displayInternational;
+		if (display!=null)
+			return display;
+		if (raw!=null)
+			return raw;
+		StringBuilder sb = new StringBuilder();
+		if (countryCode!=null)
+			sb.append("+").append(countryCode).append(" ");
+		if (number!=null)
+			sb.append(number);
+		if (extension!=null)
+			sb.append(" x").append(extension);
+		return sb.toString();
+	}
 }

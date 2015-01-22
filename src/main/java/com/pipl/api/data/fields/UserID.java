@@ -30,4 +30,12 @@ public class UserID extends AbstractField {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	@Override
+	public String toString() {
+		if (content!=null) {
+			return content;
+		}
+		return "";
+	}
 }

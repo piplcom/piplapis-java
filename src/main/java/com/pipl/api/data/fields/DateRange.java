@@ -1,6 +1,7 @@
 package com.pipl.api.data.fields;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -116,4 +117,13 @@ public class DateRange implements Serializable {
 		return new DateRange(start, end);
 	}
 
+	@Override
+	public String toString() {
+		DateFormat df = DateFormat.getDateInstance();
+		if (start==null)
+			return "";
+		if (end==start || end==null)
+			return df.format(start);
+		return df.format(start) + " - " + df.format(end);
+	}
 }

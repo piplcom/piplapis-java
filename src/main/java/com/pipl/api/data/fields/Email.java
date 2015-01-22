@@ -140,4 +140,12 @@ public class Email extends AbstractField {
 		return emailProvider;
 	}
 
+	@Override
+	public String toString() {
+		if (address!=null)
+			return address;
+		if (addressMd5!=null)
+			return addressMd5;
+		return "";
+	}
 }

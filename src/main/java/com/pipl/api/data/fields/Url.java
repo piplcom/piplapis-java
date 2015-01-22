@@ -49,4 +49,11 @@ public class Url extends AbstractField {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public String toString() {
+		if (url!=null)
+			return url;
+		return "";
+	}
 }

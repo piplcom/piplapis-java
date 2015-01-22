@@ -33,4 +33,15 @@ public class Language extends AbstractField {
 	public String getDisplay() {
 		return display;
 	}
+
+	@Override
+	public String toString() {
+		if (display!=null)
+			return display;
+		if (language!=null && region!=null)
+			return language + '_' + region;
+		if (language!=null)
+			return language;
+		return "";
+	}
 }

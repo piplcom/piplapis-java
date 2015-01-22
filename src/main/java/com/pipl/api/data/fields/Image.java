@@ -31,4 +31,8 @@ public class Image extends AbstractField {
 		return MessageFormat.format("https://thumb.pipl.com/cgi-bin/fdt.fcgi?hg={0}&wd={1}&favicon={2}&th={3}&eurl={4}", height, width, favicon ? 1 : 0, detectFace ? 1 : 0, thumbnailToken);
 	}
 
+	@Override
+	public String toString() {
+		return url;
+	}
 }

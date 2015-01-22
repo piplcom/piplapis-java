@@ -437,4 +437,20 @@ public class SearchAPIRequest {
 	static public SearchConfiguration getDefaultConfiguration() {
 		return defaultConfiguration;
 	}
+	
+	@Override
+	public String toString() {
+		SearchConfiguration effectiveConfiguration = configuration!=null ? configuration : defaultConfiguration;
+		StringBuilder sb = new StringBuilder(effectiveConfiguration.toString()).append("&");
+		if (person.searchPointer!=null) {
+			sb.append("search_pointer=").append(person.searchPointer);
+		} else if (person!=null) {
+			sb.append("person=");
+			try {
+				sb.append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
+			} catch (Throwable t) {
+			}
+		}
+		return sb.toString();
+	}
 }

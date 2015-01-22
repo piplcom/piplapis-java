@@ -315,5 +315,8 @@ public class FieldsContainer implements Serializable {
 		return false;
 	}
 
-
+	@Override
+	public String toString() {
+		return allFields().toString();
+	}
 }

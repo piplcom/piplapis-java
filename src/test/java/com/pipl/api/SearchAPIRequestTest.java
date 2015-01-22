@@ -34,6 +34,10 @@ public class SearchAPIRequestTest {
 		assertNull(resp.person);
 		assertNotNull(resp.possiblePersons);
 		assertNotNull(resp.sources);
+		resp = resp.possiblePersons.get(0).fromSearchPointer().send();
+		assertNotNull(resp);
+		assertNotNull(resp.person);
+		assertNotNull(resp.sources);
 	}
 
 }

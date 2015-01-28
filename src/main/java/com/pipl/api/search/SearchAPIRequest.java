@@ -442,7 +442,7 @@ public class SearchAPIRequest {
 	public String toString() {
 		SearchConfiguration effectiveConfiguration = configuration!=null ? configuration : defaultConfiguration;
 		StringBuilder sb = new StringBuilder(effectiveConfiguration.toString()).append("&");
-		if (person.searchPointer!=null) {
+		if (person!=null && person.searchPointer!=null) {
 			sb.append("search_pointer=").append(person.searchPointer);
 		} else if (person!=null) {
 			sb.append("person=");

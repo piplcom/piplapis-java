@@ -2,21 +2,12 @@ package com.pipl.api.data;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -74,27 +65,6 @@ public class Utils {
 		STATES.put("GB", temp4);
 
 		STATES = Collections.unmodifiableMap(STATES);
-	}
-
-	/**
-	 * Return True if `url` (str/unicode) is a valid URL, False otherwise.
-	 * 
-	 * @param url
-	 *            url to be validated
-	 * @return <code>true</code> if the provided url is valid;
-	 *         <code>false</code> otherwise.
-	 */
-	public static boolean isValidUrl(String url) {
-
-		if (url == null) {
-			return false;
-		}
-		try {
-			new URI(url);
-		} catch (URISyntaxException e) {
-			return false;
-		}
-		return url.matches(VALID_URL_REGEX);
 	}
 
 	/**
@@ -160,74 +130,8 @@ public class Utils {
 		return gson.fromJson(json, cls);
 	}
 
-	/**
-	 * Transform a <code>Date</code> object with pattern "yyyy-MM-dd'T'HH:mm:ss"
-	 * to a <code>String</code> object.
-	 * 
-	 * @param date
-	 *            <code>Date</code> object
-	 * @return converted String.
-	 */
-	public static String dateTimeToString(Date date) {
-		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(date);
-	}
-
-	/**
-	 * Transform a <code>String</code> object to a <code>Date</code> object with
-	 * pattern "yyyy-MM-dd'T'HH:mm:ss".
-	 * 
-	 * @param str
-	 *            <code>String</code> object
-	 * @return <code>Date</code> object
-	 * @throws ParseException
-	 */
-	public static Date stringToDateTime(String str) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-		simpleDateFormat.setLenient(false);
-		return simpleDateFormat.parse(str);
-	}
-
-	/**
-	 * Transform a <code>Date</code> object with pattern "yyyy-MM-dd" to a
-	 * <code>String</code> object.
-	 * 
-	 * @param date
-	 *            <code>Date</code> object
-	 * @return converted String.
-	 */
-	public static String dateToString(Date date) {
-		return new SimpleDateFormat("yyyy-MM-dd").format(date);
-	}
-
-	/**
-	 * Transform a <code>String</code> object to a <code>Date</code> object with
-	 * pattern "yyyy-MM-dd".
-	 * 
-	 * @param str
-	 *            <code>String</code> object
-	 * @return <code>Date</code> object
-	 * @throws ParseException
-	 */
-	public static Date stringToDate(String str) throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd",
-				Locale.ENGLISH);
-		simpleDateFormat.setLenient(false);
-		return simpleDateFormat.parse(str);
-	}
-
 	public static boolean isNullOrEmpty(String s) {
 		return s == null || s.isEmpty();
-	}
-
-	public static String encodeToUtf8(String s)
-			throws UnsupportedEncodingException {
-		return URLEncoder.encode(s, "UTF-8");
-	}
-
-	public static String decodeFromUtf8(String s)
-			throws UnsupportedEncodingException {
-		return URLDecoder.decode(s, "UTF-8");
 	}
 
 	public static <T> String join(String delim, Iterable<T> iterable) {

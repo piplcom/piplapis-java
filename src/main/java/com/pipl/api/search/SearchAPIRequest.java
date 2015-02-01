@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import com.google.gson.JsonSyntaxException;
 import com.pipl.api.data.Utils;
@@ -34,6 +35,22 @@ public class SearchAPIRequest {
 	public static SearchConfiguration defaultConfiguration = new SearchConfiguration();
 	public Person person;
 	public SearchConfiguration configuration;
+	
+	public class CallableSearchRequest implements Callable<SearchAPIResponse> {
+		boolean strictValidation = true;
+
+		public CallableSearchRequest() {
+		}
+		
+		public CallableSearchRequest(boolean strictValidation) {
+			this.strictValidation = strictValidation;
+		}
+		
+		@Override
+		public SearchAPIResponse call() throws SearchAPIError, IOException {
+			return send(strictValidation);
+		}
+	}
 
 	public SearchAPIRequest() {
 	}
@@ -319,7 +336,7 @@ public class SearchAPIRequest {
 	 * @throws URISyntaxException
 	 */
 	public SearchAPIResponse send(boolean strictValidation)
-			throws SearchAPIError, IOException, URISyntaxException {
+			throws SearchAPIError, IOException {
 		
 		validateQueryParams(strictValidation);
 		SearchConfiguration effectiveConfiguration = configuration!=null ? configuration : defaultConfiguration;
@@ -349,8 +366,7 @@ public class SearchAPIRequest {
 		}
 	}
 
-	public SearchAPIResponse send() throws SearchAPIError, IOException,
-			URISyntaxException {
+	public SearchAPIResponse send() throws SearchAPIError, IOException {
 		return send(true);
 	}
 
@@ -360,62 +376,22 @@ public class SearchAPIRequest {
 	 * Use this method if you want to send the request asynchronously so your
 	 * program can do other things while waiting for the response.
 	 * 
-	 * @param strictValidation
-	 *            `strictValidation` is a bool argument that's passed to the
-	 *            validateQueryParams method.
-	 * @param searchAPICallBack
-	 *            a callback that will receive the response once the response is
-	 *            returned
-	 * @throws IllegalArgumentException
-	 *             Raises IllegalArgumentException (raised from
-	 *             validateQueryParams)
-	 * @throws IOException
-	 *             IOException
-	 * @throws URISyntaxException
+	 * @param strictValidation passed to the validateQueryParams method.
+	 * 
+	 * @return a Callable that should be run either with a FutureTask or
+	 *         with an ExecutorService. (No request is sent as a result of
+	 *         calling this method itself.)
 	 */
-	public void sendAsync(boolean strictValidation,
-			SearchAPICallBack searchAPICallBack) throws IOException,
-			URISyntaxException {
-		new ResponseThread(searchAPICallBack, strictValidation).start();
+	public CallableSearchRequest sendAsync(boolean strictValidation) {
+		return new CallableSearchRequest(strictValidation);
 	}
 
 	/**
-	 * Same as sendAsync(boolean strictValidation,SearchAPICallBack
-	 * searchAPICallBack) but with default strictValidation==true
+	 * Same as sendAsync(boolean strictValidation) but with strictValidation=true
 	 * 
-	 * @param searchAPICallBack
-	 *            a callback that will receive the response once the response is
-	 *            returned
-	 * @throws IOException
-	 * @throws URISyntaxException
 	 */
-	public void sendAsync(SearchAPICallBack searchAPICallBack)
-			throws IOException, URISyntaxException {
-		sendAsync(true, searchAPICallBack);
-	}
-
-	private class ResponseThread extends Thread {
-		private SearchAPICallBack searchAPICallBack;
-		private boolean strictValidation;
-
-		private ResponseThread(SearchAPICallBack searchAPICallBack,
-				boolean strictValidation) {
-			this.searchAPICallBack = searchAPICallBack;
-			this.strictValidation = strictValidation;
-		}
-
-		@Override
-		public void run() {
-			try {
-				searchAPICallBack.callback(send(strictValidation));
-			} catch (SearchAPIError e) {
-				searchAPICallBack.errback(e);
-			} catch (IOException e) {
-				searchAPICallBack.errback(e);
-			} catch (URISyntaxException e) {
-				searchAPICallBack.errback(e);
-			}
-		}
+	public CallableSearchRequest sendAsync() {
+		return new CallableSearchRequest();
 	}
 
 	public Person getPerson() {

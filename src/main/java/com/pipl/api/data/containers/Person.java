@@ -62,7 +62,7 @@ public class Person extends FieldsContainer {
 	public String id;
 	@Expose
 	@SerializedName("@match")
-	public float match;
+	public Float match;
 	@Expose
 	@SerializedName("@search_pointer")
 	public String searchPointer;

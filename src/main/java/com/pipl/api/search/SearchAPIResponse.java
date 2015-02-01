@@ -102,14 +102,16 @@ public class SearchAPIResponse implements Serializable {
      */
     public Map<String, List<Source>> groupSourcesByDomain() {
         Map<String, List<Source>> map = new HashMap<String, List<Source>>();
-        for (Source source : sources) {
-            String key = source.getDomain();
-            List<Source> group = map.get(key);
-            if (group == null) {
-            	group = new ArrayList<Source>();
-            	map.put(key, group);
-            }
-            group.add(source);
+        if (sources!=null) {
+	        for (Source source : sources) {
+	            String key = source.getDomain();
+	            List<Source> group = map.get(key);
+	            if (group == null) {
+	            	group = new ArrayList<Source>();
+	            	map.put(key, group);
+	            }
+	            group.add(source);
+	        }
         }
         return map;
     }
@@ -122,14 +124,16 @@ public class SearchAPIResponse implements Serializable {
      */
     public Map<String, List<Source>> groupSourcesByCategory() {
         Map<String, List<Source>> map = new HashMap<String, List<Source>>();
-        for (Source source : sources) {
-            String key = source.getCategory();
-            List<Source> group = map.get(key);
-            if (group == null) {
-            	group = new ArrayList<Source>();
-            	map.put(key, group);
-            }
-            group.add(source);
+        if (sources!=null) {
+	        for (Source source : sources) {
+	            String key = source.getCategory();
+	            List<Source> group = map.get(key);
+	            if (group == null) {
+	            	group = new ArrayList<Source>();
+	            	map.put(key, group);
+	            }
+	            group.add(source);
+	        }
         }
         return map;
     }
@@ -143,14 +147,16 @@ public class SearchAPIResponse implements Serializable {
      */
     public Map<Float, List<Source>> groupSourcesByMatch() {
         Map<Float, List<Source>> map = new HashMap<Float, List<Source>>();
-        for (Source source : sources) {
-            Float key = source.getMatch();
-            List<Source> group = map.get(key);
-            if (group == null) {
-            	group = new ArrayList<Source>();
-            	map.put(key, group);
-            }
-            group.add(source);
+        if (sources!=null) {
+	        for (Source source : sources) {
+	            Float key = source.getMatch();
+	            List<Source> group = map.get(key);
+	            if (group == null) {
+	            	group = new ArrayList<Source>();
+	            	map.put(key, group);
+	            }
+	            group.add(source);
+	        }
         }
         return map;
     }

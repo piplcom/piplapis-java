@@ -43,4 +43,9 @@ public class Relationship extends FieldsContainer implements Field {
 			return false;
 		return inferred;
 	}
+	
+	@Override
+	public boolean isSearchable() {
+		return true;
+	}
 }

@@ -34,13 +34,13 @@ public class Source extends FieldsContainer {
 	public String name;
 	@Expose
 	@SerializedName("@origin_url")
-	public String origin_url;
+	public String originUrl;
 	@Expose
 	@SerializedName("@domain")
 	public String domain;
 	@Expose
 	@SerializedName("@person_id")
-	public String person_id;
+	public String personId;
 	@Expose
 	@SerializedName("@match")
 	public float match;
@@ -66,16 +66,16 @@ public class Source extends FieldsContainer {
 		return name;
 	}
 
-	public String getOrigin_url() {
-		return origin_url;
+	public String getOriginUrl() {
+		return originUrl;
 	}
 
 	public String getDomain() {
 		return domain;
 	}
 
-	public String getPerson_id() {
-		return person_id;
+	public String getPersonId() {
+		return personId;
 	}
 
 	public float getMatch() {

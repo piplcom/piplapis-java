@@ -84,13 +84,10 @@ public class Phone extends AbstractField {
 	}
 
 	/**
-	 * A bool value that indicates whether the address is a valid address to
-	 * search by.
-	 * 
-	 * @return boolean
+	 * @return is this number a valid input to search by. 
 	 */
 	public boolean isSearchable() {
-		return number != null && (countryCode == null || countryCode == 1);
+		return number!=null || (raw!=null && !raw.isEmpty());
 	}
 
 	public Integer getCountryCode() {

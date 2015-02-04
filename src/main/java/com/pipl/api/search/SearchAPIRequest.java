@@ -300,8 +300,8 @@ public class SearchAPIRequest {
 	 */
 	public void validateQueryParams(boolean strict)
 			throws IllegalArgumentException {
-		
-		if (Utils.isNullOrEmpty(configuration!=null ? configuration.apiKey : defaultConfiguration.apiKey)) {
+		SearchConfiguration effectiveConfiguration = configuration!=null ? configuration : defaultConfiguration;
+		if (Utils.isNullOrEmpty(effectiveConfiguration.apiKey)) {
 			throw new IllegalArgumentException("API key is missing");
 		}
 		if (!person.isSearchable()) {
@@ -311,6 +311,14 @@ public class SearchAPIRequest {
 		if (strict && !person.unsearchableFields().isEmpty()) {
 			throw new IllegalArgumentException("Some fields are unsearchable: "
 					+ person.unsearchableFields());
+		}
+		if (strict && effectiveConfiguration.showSources!=null 
+				&& !SearchConfiguration.ALL_SOURCES.equals(effectiveConfiguration.showSources) 
+				&& !SearchConfiguration.MATCHING_SOURCES.equals(effectiveConfiguration.showSources)) {
+			throw new IllegalArgumentException("Invalid value for showSources in the SearchConfiguration.");
+		}
+		if (strict && effectiveConfiguration.minimumProbability!=null && (effectiveConfiguration.minimumProbability<0 || effectiveConfiguration.minimumProbability>1)) {
+			throw new IllegalArgumentException("Invalid value for minimumProbability in the SearchConfiguration. Must be between 0 and 1.");
 		}
 	}
 

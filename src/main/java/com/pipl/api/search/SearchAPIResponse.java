@@ -76,6 +76,12 @@ public class SearchAPIResponse implements Serializable {
 	public ArrayList<Source> sources;
 	@Expose
 	public ArrayList<String> warnings;
+	@Expose
+    @SerializedName("@visible_sources")
+	public Integer visibleSources;
+	@Expose
+    @SerializedName("@available_sources")
+	public Integer availableSources;
 
     /**
      * @return Sources that match the person from the query.
@@ -199,6 +205,21 @@ public class SearchAPIResponse implements Serializable {
 		return warnings;
 	}
 
+	/**
+	 * @return the number of sources in this response.
+	 */
+	public int getVisibleSources() {
+		return visibleSources;
+	}
+	
+	/**
+	 * @return the number of sources that could be received for this
+	 *         query, in any subscription level.
+	 */
+	public int getAvailableSources() {
+		return availableSources;
+	}
+	
 	/**
 	 * A shortcut method to get the person's gender from the result.
 	 * @return the person's gender.

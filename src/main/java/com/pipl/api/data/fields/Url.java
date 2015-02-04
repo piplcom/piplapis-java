@@ -24,6 +24,9 @@ public class Url extends AbstractField {
 	@Expose
 	@SerializedName("@name")
 	public String name;
+	@Expose
+	@SerializedName("@source_id")
+	public String sourceId;
 
 	public Url() {
 	}
@@ -48,6 +51,10 @@ public class Url extends AbstractField {
 
 	public String getName() {
 		return name;
+	}
+	
+	public String getSourceId() {
+		return sourceId;
 	}
 
 	@Override

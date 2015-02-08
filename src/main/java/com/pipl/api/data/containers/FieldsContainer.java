@@ -20,6 +20,7 @@ import com.pipl.api.data.fields.Language;
 import com.pipl.api.data.fields.Name;
 import com.pipl.api.data.fields.OriginCountry;
 import com.pipl.api.data.fields.Phone;
+import com.pipl.api.data.fields.Tag;
 import com.pipl.api.data.fields.Url;
 import com.pipl.api.data.fields.UserID;
 import com.pipl.api.data.fields.Username;
@@ -64,6 +65,8 @@ public class FieldsContainer implements Serializable {
 	@Expose
 	public ArrayList<Relationship> relationships;
 	@Expose
+	public ArrayList<Tag> tags;
+	@Expose
 	public DOB dob;
 	@Expose
 	public Gender gender;
@@ -83,6 +86,7 @@ public class FieldsContainer implements Serializable {
 		originCountries = new ArrayList<OriginCountry>();
 		urls = new ArrayList<Url>();
 		relationships = new ArrayList<Relationship>();
+		tags = new ArrayList<Tag>();
 	}
 
 	public FieldsContainer(Collection<Field> fields) {
@@ -129,6 +133,8 @@ public class FieldsContainer implements Serializable {
 				urls.add((Url) field);
 			} else if (field instanceof Relationship) {
 				relationships.add((Relationship) field);
+			} else if (field instanceof Tag) {
+				tags.add((Tag) field);
 			}
 		}
 	}
@@ -156,6 +162,7 @@ public class FieldsContainer implements Serializable {
 			fields.add(gender);
 		fields.addAll(urls);
 		fields.addAll(relationships);
+		fields.addAll(tags);
 		return fields;
 	}
 
@@ -223,6 +230,10 @@ public class FieldsContainer implements Serializable {
 		return relationships;
 	}
 
+	public ArrayList<Tag> getTags() {
+		return tags;
+	}
+
 	public void setNames(ArrayList<Name> names) {
 		this.names = names;
 	}
@@ -247,10 +258,6 @@ public class FieldsContainer implements Serializable {
 		this.educations = educations;
 	}
 
-	public void setImages(ArrayList<Image> images) {
-		this.images = images;
-	}
-
 	public void setUsernames(ArrayList<Username> usernames) {
 		this.usernames = usernames;
 	}
@@ -259,28 +266,12 @@ public class FieldsContainer implements Serializable {
 		this.userIds = userIds;
 	}
 	
-	public void setLanguages(ArrayList<Language> languages) {
-		this.languages = languages;
-	}
-	
-	public void setEthnicities(ArrayList<Ethnicity> ethnicities) {
-		this.ethnicities = ethnicities;
-	}
-	
-	public void setOriginCountries(ArrayList<OriginCountry> originCountries) {
-		this.originCountries = originCountries;
-	}
-
 	public void setDob(DOB dob) {
 		this.dob = dob;
 	}
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
-	}
-
-	public void setUrls(ArrayList<Url> urls) {
-		this.urls = urls;
 	}
 
 	public void setRelationships(ArrayList<Relationship> relationships) {

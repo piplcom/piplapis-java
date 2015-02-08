@@ -14,8 +14,10 @@ import com.pipl.api.data.fields.Education;
 import com.pipl.api.data.fields.Email;
 import com.pipl.api.data.fields.Ethnicity;
 import com.pipl.api.data.fields.Gender;
+import com.pipl.api.data.fields.Image;
 import com.pipl.api.data.fields.Job;
 import com.pipl.api.data.fields.Language;
+import com.pipl.api.data.fields.Name;
 import com.pipl.api.data.fields.OriginCountry;
 import com.pipl.api.data.fields.Phone;
 
@@ -317,6 +319,26 @@ public class SearchAPIResponse implements Serializable {
 	public Email email() {
 		if (person!=null && !person.emails.isEmpty())
 			return person.emails.get(0);
+		return null;
+	}
+    
+	/**
+	 * A shortcut method to get the person's image from the result.
+	 * @return the person's image.
+	 */
+	public Image image() {
+		if (person!=null && !person.images.isEmpty())
+			return person.images.get(0);
+		return null;
+	}
+    
+	/**
+	 * A shortcut method to get the person's name from the result.
+	 * @return the person's name.
+	 */
+	public Name name() {
+		if (person!=null && !person.names.isEmpty())
+			return person.names.get(0);
 		return null;
 	}
     

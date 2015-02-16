@@ -353,24 +353,40 @@ public class SearchAPIResponse implements Serializable {
 		return null;
 	}
     
+	/**
+	 * A shortcut method to get the result's person's username.
+	 * @return the person's username.
+	 */
 	public Username username() {
 		if (person!=null && !person.usernames.isEmpty())
 			return person.usernames.get(0);
 		return null;
 	}
 	
+	/**
+	 * A shortcut method to get the result's person's user_id.
+	 * @return the person's user ID.
+	 */
 	public UserID userID() {
 		if (person!=null && !person.userIds.isEmpty())
 			return person.userIds.get(0);
 		return null;
 	}
 	
+    /**
+     * A shortcut method to get the result's person's url.
+     * @return the person's URL.
+     */
     public Url url() {
 		if (person!=null && !person.urls.isEmpty())
 			return person.urls.get(0);
 		return null;
     }
 	
+    /**
+     * A shortcut method to get the result's person's most prominent relationship.
+     * @return the person's relationship.
+     */
     public Relationship relationship() {
 		if (person!=null && !person.relationships.isEmpty())
 			return person.relationships.get(0);

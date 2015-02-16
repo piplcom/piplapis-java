@@ -12,6 +12,8 @@ import java.util.concurrent.Future;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.pipl.api.data.containers.Relationship;
+import com.pipl.api.data.fields.Job;
 import com.pipl.api.search.SearchAPIError;
 import com.pipl.api.search.SearchAPIRequest;
 import com.pipl.api.search.SearchAPIResponse;
@@ -75,4 +77,29 @@ public class SearchAPIRequestTest {
 		assertNull(resp); 
 	}
 
+	@Test
+	public void testFromDocumentation() {
+		SearchAPIRequest req = new SearchAPIRequest.Builder().email("clark.kent@example.com").build();
+		try {
+			SearchAPIResponse resp = req.send();
+			System.out.println(resp.image().getThumbnailUrl(200, 100, true, true));
+			System.out.println(resp.name());
+			System.out.println(resp.username());
+			System.out.println(resp.address());
+			for (Job job : resp.getPerson().getJobs()) {
+				System.out.print(job);
+				System.out.print(", ");
+			}
+			System.out.println();
+			for (Relationship relationship : resp.getPerson().getRelationships()) {
+				System.out.print(relationship.getNames().get(0));
+				System.out.print(", ");
+			}
+			System.out.println();
+		} catch (SearchAPIError e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

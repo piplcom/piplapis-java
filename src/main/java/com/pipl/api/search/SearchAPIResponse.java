@@ -7,6 +7,7 @@ import java.util.*;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pipl.api.data.containers.Person;
+import com.pipl.api.data.containers.Relationship;
 import com.pipl.api.data.containers.Source;
 import com.pipl.api.data.fields.Address;
 import com.pipl.api.data.fields.DOB;
@@ -20,6 +21,9 @@ import com.pipl.api.data.fields.Language;
 import com.pipl.api.data.fields.Name;
 import com.pipl.api.data.fields.OriginCountry;
 import com.pipl.api.data.fields.Phone;
+import com.pipl.api.data.fields.Url;
+import com.pipl.api.data.fields.UserID;
+import com.pipl.api.data.fields.Username;
 
 
 /**
@@ -84,6 +88,9 @@ public class SearchAPIResponse implements Serializable {
 	@Expose
     @SerializedName("@available_sources")
 	public Integer availableSources;
+	@Expose
+    @SerializedName("@search_id")
+	public String searchId;
 
     /**
      * @return Sources that match the person from the query.
@@ -168,6 +175,10 @@ public class SearchAPIResponse implements Serializable {
         }
         return map;
     }
+    
+    public String getSearchId() {
+		return searchId;
+	}
 
 	/**
 	 * @return A Person object with the query as interpreted by Pipl.
@@ -342,4 +353,27 @@ public class SearchAPIResponse implements Serializable {
 		return null;
 	}
     
+	public Username username() {
+		if (person!=null && !person.usernames.isEmpty())
+			return person.usernames.get(0);
+		return null;
+	}
+	
+	public UserID userID() {
+		if (person!=null && !person.userIds.isEmpty())
+			return person.userIds.get(0);
+		return null;
+	}
+	
+    public Url url() {
+		if (person!=null && !person.urls.isEmpty())
+			return person.urls.get(0);
+		return null;
+    }
+	
+    public Relationship relationship() {
+		if (person!=null && !person.relationships.isEmpty())
+			return person.relationships.get(0);
+		return null;
+    }
 }

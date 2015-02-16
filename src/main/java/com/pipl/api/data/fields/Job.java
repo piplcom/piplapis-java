@@ -81,6 +81,8 @@ public class Job extends AbstractField {
 	}
 
 	public String toString() {
+		if (display!=null)
+			return display;
 		String result = "";
 		if (!Utils.isNullOrEmpty(getTitle()) && !Utils.isNullOrEmpty(getOrganization())) {
 			result = result + getTitle() + " at " + getOrganization();

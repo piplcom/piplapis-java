@@ -23,9 +23,9 @@ public class SearchConfiguration {
 	public String path = "/search/v4/";
 	public String apiKey = "sample_key";
 	public Float minimumProbability;
+	public Float minimumMatch;
 	public String showSources;
 	public Boolean hideSponsored;
-	public Boolean possibleResults;
 	public Boolean liveFeeds;
 	public String extraParams;
 
@@ -34,7 +34,7 @@ public class SearchConfiguration {
 
 	public SearchConfiguration(String protocol, String host, String path,
 			String apiKey, float minimumProbability, String showSources,
-			boolean hideSponsored, boolean possibleResults, boolean liveFeeds) {
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds) {
 		setProtocol(protocol);
 		setHost(host);
 		setPath(path);
@@ -42,7 +42,7 @@ public class SearchConfiguration {
 		setMinimumProbability(minimumProbability);
 		setShowSources(showSources);
 		setHideSponsored(hideSponsored);
-		setPossibleResults(possibleResults);
+		setMinimumMatch(minimumMatch);
 		setLiveFeeds(liveFeeds);
 	}
 	
@@ -54,7 +54,7 @@ public class SearchConfiguration {
 		setMinimumProbability(builder.minimumProbability);
 		setShowSources(builder.showSources);
 		setHideSponsored(builder.hideSponsored);
-		setPossibleResults(builder.possibleResults);
+		setMinimumMatch(builder.minimumMatch);
 		setLiveFeeds(builder.liveFeeds);
 	}
 
@@ -125,6 +125,8 @@ public class SearchConfiguration {
 	 * @return the minimumProbability (defaults to 1 if not set.)
 	 */
 	public float getMinimumProbability() {
+		if (minimumProbability==null)
+			return 1;
 		return minimumProbability;
 	}
 
@@ -135,6 +137,26 @@ public class SearchConfiguration {
 	 */
 	public void setMinimumProbability(float minimumProbability) {
 		this.minimumProbability = minimumProbability;
+	}
+
+	/**
+	 * @return the minimumMatch (defaults to 0 if not set.)
+	 */
+	public float getMinimumMatch() {
+		if (minimumMatch==null)
+			return 0;
+		return minimumMatch;
+	}
+
+	/**
+	 * @param minimumMatch the minimumMatch to set
+	 * A probability value (0-1). Possible persons with a match score
+	 * less than this value will not be returned.
+	 * Set to 1 to only receive full matches.
+	 * Defaults to 0.
+	 */
+	public void setMinimumMatch(float minimumMatch) {
+		this.minimumMatch = minimumMatch;
 	}
 
 	/**
@@ -171,22 +193,6 @@ public class SearchConfiguration {
 	}
 
 	/**
-	 * @return the possibleResults (defaults to true if not set)
-	 */
-	public boolean getPossibleResults() {
-		return possibleResults;
-	}
-
-	/**
-	 * @param possibleResults the possibleResults to set
-	 * Whether to show possible persons. If set to false,
-	 * only a person match will be returned.
-	 */
-	public void setPossibleResults(boolean possibleResults) {
-		this.possibleResults = possibleResults;
-	}
-
-	/**
 	 * @return the liveFeeds (defaults to true if not set)
 	 */
 	public boolean getLiveFeeds() {
@@ -211,8 +217,8 @@ public class SearchConfiguration {
 		if (minimumProbability!=null) {
 			sb.append("&minimum_probability=").append(String.valueOf(minimumProbability));
 		}
-		if (possibleResults!=null) {
-			sb.append("&possible_results=").append(String.valueOf(possibleResults));
+		if (minimumMatch!=null) {
+			sb.append("&minimum_match=").append(String.valueOf(minimumMatch));
 		}
 		if (hideSponsored!=null) {
 			sb.append("&hide_sponsored=").append(String.valueOf(hideSponsored));
@@ -237,7 +243,7 @@ public class SearchConfiguration {
 		private Float minimumProbability;
 		private String showSources;
 		private Boolean hideSponsored;
-		private Boolean possibleResults;
+		private Float minimumMatch;
 		private Boolean liveFeeds;
 		
 		public Builder protocol(String protocol) {
@@ -265,6 +271,11 @@ public class SearchConfiguration {
 			return this;
 		}
 		
+		public Builder minimumMatch(float minimumMatch) {
+			this.minimumMatch = minimumMatch;
+			return this;
+		}
+		
 		public Builder showSources(String showSources) {
 			this.showSources =showSources;
 			return this;
@@ -272,11 +283,6 @@ public class SearchConfiguration {
 		
 		public Builder hideSponsored(boolean hideSponsored) {
 			this.hideSponsored = hideSponsored;
-			return this;
-		}
-		
-		public Builder possibleResults(boolean possibleResults) {
-			this.possibleResults = possibleResults;
 			return this;
 		}
 		

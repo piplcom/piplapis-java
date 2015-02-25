@@ -82,7 +82,7 @@ public class SearchAPIRequestTest {
 		SearchAPIRequest req = new SearchAPIRequest.Builder().email("clark.kent@example.com").build();
 		try {
 			SearchAPIResponse resp = req.send();
-			System.out.println(resp.image().getThumbnailUrl(200, 100, true, true));
+			System.out.println(resp.image().getThumbnailUrl(200, 100, true, true, false));
 			System.out.println(resp.name());
 			System.out.println(resp.username());
 			System.out.println(resp.address());

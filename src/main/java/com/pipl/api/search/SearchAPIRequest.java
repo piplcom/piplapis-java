@@ -362,7 +362,7 @@ public class SearchAPIRequest {
 		}
 		osw.flush();
 		try {
-			if (urlConnection.getResponseCode()==HttpURLConnection.HTTP_OK) {
+			if (urlConnection.getResponseCode()<400) {
 				SearchAPIResponse searchAPIResponse = (SearchAPIResponse) Utils.fromJson(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"), SearchAPIResponse.class);
 				return searchAPIResponse;
 			} else {

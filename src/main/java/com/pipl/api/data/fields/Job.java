@@ -35,8 +35,6 @@ public class Job extends AbstractField {
 	 *            organization
 	 * @param industry
 	 *            industry
-	 * @param dateRange
-	 *            the time the person held this job.
 	 */
 	public Job(String title, String organization, String industry) {
 		setTitle(title);

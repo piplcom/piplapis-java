@@ -71,7 +71,7 @@ public class Utils {
 	 * Strip all non alphabetic characters from the string.
 	 * 
 	 * @param s
-	 * @return
+	 * @return The string without any non alphabetic characters.
 	 */
 	public static String alphaChars(String s) {
 		String result = "";
@@ -87,7 +87,7 @@ public class Utils {
 	 * Strip all non alphanumeric characters from the string.
 	 * 
 	 * @param s
-	 * @return
+	 * @return The string without any non alphanumeric characters.
 	 */
 	public static String alnumChars(String s) {
 		String result = "";

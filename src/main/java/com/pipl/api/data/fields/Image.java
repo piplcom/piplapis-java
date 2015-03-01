@@ -36,7 +36,7 @@ public class Image extends AbstractField {
 	 * @return A URL to be used in an <img src=""> elements. The URL returns a thumbnail image created from the original image URL. 
 	 */
 	public String getThumbnailUrl(int height, int width, boolean favicon, boolean detectFace, boolean useHttps) {
-		return MessageFormat.format("{0}://thumb.pipl.com/cgi-bin/fdt.fcgi?height={1}&width={2}&favicon={3}&zoom_face={4}&token={5}", useHttps ? "https" : "http", height, width, favicon ? 1 : 0, detectFace ? 1 : 0, thumbnailToken);
+		return MessageFormat.format("{0}://thumb.pipl.com/image?height={1}&width={2}&favicon={3}&zoom_face={4}&token={5}", useHttps ? "https" : "http", height, width, favicon ? 1 : 0, detectFace ? 1 : 0, thumbnailToken);
 	}
 
 	@Override

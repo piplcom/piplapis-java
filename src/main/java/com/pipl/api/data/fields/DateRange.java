@@ -80,6 +80,10 @@ public class DateRange implements Serializable {
 	 *         self.start + (self.end - self.start) / 2
 	 */
 	public Date middle() {
+		if (start==null)
+			return end;
+		if (end==null)
+			return start;
 		Long t1 = start.getTime();
 		Long t2 = end.getTime();
 		return new Date(t1 + (t2 - t1) / 2);

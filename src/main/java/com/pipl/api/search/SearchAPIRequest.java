@@ -370,7 +370,7 @@ public class SearchAPIRequest {
 				throw searchAPIError;
 			}
 		} catch (JsonSyntaxException e) {
-			throw new SearchAPIError("Response did not contain valid JSON. HTTP response code: {}.", urlConnection.getResponseCode(), e);
+			throw new SearchAPIError("Response did not contain valid JSON. HTTP response code: " + urlConnection.getResponseCode(), urlConnection.getResponseCode(), e);
 		}
 	}
 

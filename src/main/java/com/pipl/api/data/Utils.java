@@ -41,8 +41,6 @@ public class Utils {
 	private static String gb = "{WLS:Wales,SCT:Scotland,NIR:\"Northern Ireland\",ENG:England'}";
 	public static final String CHARSET_NAME = "UTF-8";
 
-	public static String VALID_URL_REGEX = "^(?:(?:ht|f)tp(?:s?)\\:\\/\\/|~\\/|\\/)?(?:\\w+:\\w+@)?(?:(?:[-\\w]+\\.)+(?:com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum|travel|[a-z]{2}))(?::[\\d]{1,5})?(?:(?:(?:\\/(?:[-\\w~!$+|.,=]|%[a-f\\d]{2})+)+|\\/)+|\\?|#)?(?:(?:\\?(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?(?:[-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)(?:&(?:[-\\w~!$+|.,*:]|%[a-f\\d{2}])+=?(?:[-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)*)*(?:#(?:[-\\w~!$+|.,*:=]|%[a-f\\d]{2})*)?$";
-
 	static {
 		Gson gson = new Gson();
 		Type mapType = new TypeToken<Map<String, String>>() {

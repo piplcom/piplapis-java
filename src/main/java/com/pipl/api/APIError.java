@@ -23,6 +23,12 @@ public class APIError extends Exception implements Serializable {
 		this.httpStatusCode = httpStatusCode;
 	}
 
+	public APIError(String error, Integer httpStatusCode, Throwable cause) {
+		super(error, cause);
+		this.error = error;
+		this.httpStatusCode = httpStatusCode;
+	}
+
 	/**
 	 * @return A boolean that indicates whether the error is on the user's side.
 	 */

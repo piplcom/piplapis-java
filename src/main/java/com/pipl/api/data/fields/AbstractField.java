@@ -16,6 +16,12 @@ public abstract class AbstractField implements Serializable, Field {
 	@SerializedName("@valid_since")
 	public Date validSince;
 	@Expose
+	@SerializedName("@last_seen")
+	public Date lastSeen;
+	@Expose
+	@SerializedName("@current")
+	public Boolean current;
+	@Expose
 	@SerializedName("@inferred")
 	public Boolean inferred;
 
@@ -82,6 +88,14 @@ public abstract class AbstractField implements Serializable, Field {
 	@Override
 	public Date getValidSince() {
 		return validSince;
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.pipl.api.data.fields.Field#getLastSeen()
+	 */
+	@Override
+	public Date getLastSeen() {
+		return lastSeen;
 	}
 	
 	/* (non-Javadoc)

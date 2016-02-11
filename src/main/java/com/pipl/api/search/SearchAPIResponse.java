@@ -29,35 +29,44 @@ import com.pipl.api.data.fields.Username;
 /**
  * A response from Pipl's Search API.
  * <p/>
- * A response comprises the three things returned as a result to your query:
+ * A response contains 4 main data elements:
  * <p/>
- * - A person that is the data object.
- * representing all the information available for the person you were
- * looking for.
- * This object will only be returned when our identity-resolution engine is
- * convinced that the information is of the person represented by your query.
- * Obviously, if the query was for "John Smith" there's no way for our
- * identity-resolution engine to know which of the hundreds of thousands of
- * people named John Smith you were referring to, therefore you can expect
- * that the response will not contain a person object.
- * On the other hand, if you search by a unique identifier such as email or
- * a combination of identifiers that only lead to one person, such as
- * "Eric Cartman, Age 22, From South Park, CO, US", you can expect to get
- * a response containing a single person object.
+ * 
+ * - available data summary (piplapis.data.available_data.AvailableData).
+ *   This is a summary of the data available for your search. Please note that
+ *   some available data may not be present in the response due to data package limits.
+ *   The available data contains two sub-elements, basic and premium (if you're on premium,
+ *   basic will be None):
+ *   - basic: shows the data available with a basic coverage plan
+ *   - premium: shows the data available with a premium coverage plan
  * <p/>
- * - A list of possible persons.
- * If our identity-resolution engine did not find a definite match, you can 
- * use this list to further drill down using the persons' search_pointer field.
+ * - a person (piplapis.data.containers.Person) that is the data object
+ *   representing all the information available for the person you were
+ *   looking for.
+ *   this object will only be returned when our identity-resolution engine is
+ *   convinced that the information is of the person represented by your query.
+ *   obviously, if the query was for "John Smith" there's no way for our
+ *   identity-resolution engine to know which of the hundreds of thousands of
+ *   people named John Smith you were referring to, therefore you can expect
+ *   that the response will not contain a person object.
+ *   on the other hand, if you search by a unique identifier such as email or
+ *   a combination of identifiers that only lead to one person, such as
+ *   "Clark Kent from Smallville, KS, US", you can expect to get
+ *   a response containing a single person object.
  * <p/>
- * - A list of sources.
- * Sources that fully/partially match the person from your query, if the query 
- * was for "Eric Cartman from colorado US" the response might also contain 
- * sources of "Eric Cartman from US" (without Colorado), if you need to 
- * differentiate between sources with full match to the query and partial match
- * or if you want to get a score on how likely is that source to be related to 
- * the person you are searching please refer to the source's "match" field.
+ * - a list of possible persons (piplapis.data.containers.Person). If our identity-resolution
+ *   engine did not find a definite match, you can use this list to further
+ *   drill down using the persons' search_pointer field.
  * <p/>
- * The response also contains the query as it was interpreted by Pipl. This
+ * - a list of sources (piplapis.data.containers.Source). Sources are the breakdown
+ *   of a response's data into its origin - so each source will contain data that came
+ *   from one source (e.g. a facebook profile, a public record, etc).
+ *   Sources may contain strictly data that belongs to the person returned as a
+ *   perfect match (only these are shown if the search contained show_sources=matching),
+ *   or they may belong to possibly related people. In any case, by default API
+ *   responses do not contain sources, and to use them you must pass a value for show_sources.
+ *
+ * the response also contains the query as it was interpreted by Pipl. This
  * part is useful for verification and debugging, if some query parameters
  * were invalid you can see in response.query that they were ignored, you can
  * also see how the name/address from your query were parsed in case you
@@ -73,6 +82,9 @@ public class SearchAPIResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Expose
 	public Person query;
+	@Expose
+    @SerializedName("available_data")
+	public AvailableData availableData;
 	@Expose
 	public Person person;
 	@Expose
@@ -91,6 +103,9 @@ public class SearchAPIResponse implements Serializable {
 	@Expose
     @SerializedName("@search_id")
 	public String searchId;
+	@Expose
+    @SerializedName("@match_requirements")
+	public String matchRequirements;
 
     /**
      * @return Sources that match the person from the query.
@@ -186,6 +201,10 @@ public class SearchAPIResponse implements Serializable {
 	public Person getQuery() {
 		return query;
 	}
+
+    public AvailableData getAvailableData() {
+    	return availableData;
+    }
 
 	/**
 	 * @return A Person object with data about the person in the query.

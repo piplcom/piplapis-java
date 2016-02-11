@@ -20,13 +20,14 @@ public class SearchConfiguration {
 	public static final String MATCHING_SOURCES = "matching";
 	public String protocol = "http"; // https is also supported.
 	public String host = "api.pipl.com";
-	public String path = "/search/v4/";
+	public String path = "/search/";
 	public String apiKey = "sample_key";
 	public Float minimumProbability;
 	public Float minimumMatch;
 	public String showSources;
 	public Boolean hideSponsored;
 	public Boolean liveFeeds;
+	public String matchRequirements;
 	public String extraParams;
 
 	public SearchConfiguration() {
@@ -45,6 +46,22 @@ public class SearchConfiguration {
 		setMinimumMatch(minimumMatch);
 		setLiveFeeds(liveFeeds);
 	}
+
+	public SearchConfiguration(String protocol, String host, String path,
+			String apiKey, float minimumProbability, String showSources,
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
+			String matchRequirements) {
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
+		setMatchRequirements(matchRequirements);
+	}
+	
+	public SearchConfiguration(String protocol, String host, String path,
+			String apiKey, float minimumProbability, String showSources,
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
+			Expression matchRequirements) {
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
+		setMatchRequirements(matchRequirements);
+	}
 	
 	public SearchConfiguration(Builder builder) {
 		setProtocol(builder.protocol);
@@ -56,6 +73,7 @@ public class SearchConfiguration {
 		setHideSponsored(builder.hideSponsored);
 		setMinimumMatch(builder.minimumMatch);
 		setLiveFeeds(builder.liveFeeds);
+		setMatchRequirements(builder.matchRequirements);
 	}
 
 	/**
@@ -209,6 +227,33 @@ public class SearchConfiguration {
 		this.liveFeeds = liveFeeds;
 	}
 	
+	public String getMatchRequirements() {
+		return matchRequirements;
+	}
+
+	/**
+	 * @param matchRequirements a match requirements criteria.
+	 * This criteria defines what fields must be present in an
+	 * API response in order for it to be returned as a match.
+	 * For example: "email" or "email or phone", or 
+	 * "email & (phone | name)".
+	 */
+	public void setMatchRequirements(String matchRequirements) {
+		this.matchRequirements = matchRequirements;
+	}
+	
+	/**
+	 * @param expression an Expression that describes a match requirement
+	 * This is a helper method that allows you to build and set a
+	 * match requirement programmatically.
+	 * See the documentation for 
+	 * {@link com.pipl.api.search.SearchConfiguration.Expression}
+	 * for more details.
+	 */
+	public void setMatchRequirements(Expression expression) {
+		this.matchRequirements = expression.toString();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -229,6 +274,9 @@ public class SearchConfiguration {
 		if (showSources!=null) {
 			sb.append("&show_sources=").append(String.valueOf(showSources));
 		}
+		if (matchRequirements!=null) {
+			sb.append("&match_requirements=").append(matchRequirements);
+		}
 		if (extraParams!=null) {
 			sb.append(extraParams);
 		}
@@ -245,6 +293,7 @@ public class SearchConfiguration {
 		private Boolean hideSponsored;
 		private Float minimumMatch;
 		private Boolean liveFeeds;
+		private String matchRequirements;
 		
 		public Builder protocol(String protocol) {
 			this.protocol = protocol;
@@ -290,6 +339,115 @@ public class SearchConfiguration {
 			this.liveFeeds = liveFeeds;
 			return this;
 		}
+		
+		public Builder matchRequirements(String matchRequirements) {
+			this.matchRequirements = matchRequirements;
+			return this;
+		}
+		
+		public Builder matchRequirements(Expression expression) {
+			this.matchRequirements = expression.toString();
+			return this;
+		}
+
 	}
 
+	/**
+	 * You can use the Expression interface and its implementation, 
+	 * AtomicExpression to programmatically create a matchRequirment
+	 * Simply start form AtomicExpressions, use the or/and methods on
+	 * them, and then use the resulting expressions to build even more
+	 * complex expressions.
+	 * Every and/or is considered to be in parenthesis if needed.
+	 * Example:
+	 * AtomicExpression.NAME.or(AtomicExpression.ADDRESS, AtomicExpression.PHONE).and(AtomicExpression.EMAIL)
+	 * is equivalent to the matchRequiremnet String: (NAME | ADDRESS | PHONE) & EMAIL.
+	 * You can find more samples in {@link com.pipl.api.ExpressionTest}.
+	 */
+	public static interface Expression {
+		public enum Type {ATOMIC, AND, OR};
+		public Type type();
+		public Expression and(Expression... expressions);
+		public Expression or(Expression... expressions);
+	}
+	
+	public static enum AtomicExpression implements Expression {
+		NAME, ADDRESS, EMAIL, PHONE, JOB, EDUCATION, IMAGE, USERNAME, USER_ID, DOB, URL, GENDER, ETHNICITY, LANGUAGE, ORIGIN_COUNTRY;
+
+		@Override
+		public Type type() {
+			return Type.ATOMIC;
+		}
+
+		@Override
+		public Expression and(Expression... expressions) {
+			return LogicalExpression.and(this, expressions);
+		}
+
+		@Override
+		public Expression or(Expression... expressions) {
+			return LogicalExpression.or(this, expressions);
+		}
+	
+	private static class LogicalExpression implements Expression {
+		private Type type;
+		private String asString;
+		
+		public LogicalExpression(Type type, String asString) {
+			this.type = type;
+			this.asString = asString;
+		}
+		
+		public Type type() {
+			return type;
+		}
+		
+		public Expression and(Expression... expressions) {
+			return and(this, expressions);
+		}
+		
+		public Expression or(Expression... expressions) {
+			return or(this, expressions);
+		}
+
+		@Override
+		public String toString() {
+			return asString;
+		}
+		
+		public static Expression and(Expression expression, Expression... expressions) {
+			StringBuilder sb = new StringBuilder();
+			if (expression.type()==Type.OR) {
+				sb.append("(");
+			}
+			sb.append(expression.toString());
+			if (expression.type()==Type.OR) {
+				sb.append(")");
+			}
+			for (Expression e : expressions) {
+				sb.append(" & ");
+				if (e.type()==Type.OR) {
+					sb.append("(");
+				}
+				sb.append(e.toString());
+				if (e.type()==Type.OR) {
+					sb.append(")");
+				}
+			}
+			return new LogicalExpression(Type.AND, sb.toString());
+			
+		}
+		
+		public static Expression or(Expression expression, Expression... expressions) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(expression.toString());
+			for (Expression e : expressions) {
+				sb.append(" | ");
+				sb.append(e.toString());
+			}
+			return new LogicalExpression(Type.OR, sb.toString());
+		}
+	}
+	};
+	
 }

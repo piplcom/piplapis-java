@@ -15,6 +15,12 @@ public class Relationship extends FieldsContainer implements Field {
 	@SerializedName("@valid_since")
 	public Date validSince;
 	@Expose
+	@SerializedName("@last_seen")
+	public Date lastSeen;
+	@Expose
+	@SerializedName("@current")
+	public Boolean current;
+	@Expose
 	@SerializedName("@inferred")
 	public Boolean inferred;
 	@Expose
@@ -35,6 +41,11 @@ public class Relationship extends FieldsContainer implements Field {
 	@Override
 	public Date getValidSince() {
 		return validSince;
+	}
+
+	@Override
+	public Date getLastSeen() {
+		return lastSeen;
 	}
 
 	@Override

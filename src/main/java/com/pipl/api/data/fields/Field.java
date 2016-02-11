@@ -11,8 +11,19 @@ public interface Field {
 	 */
 	public abstract boolean isSearchable();
 
+	/**
+	 * @return the date in which this field first appeared to Pipl's crawlers.
+	 */
 	public abstract Date getValidSince();
 
+	/**
+	 * @return the date in which this field was last seen by Pipl's crawlers.
+	 */
+	public abstract Date getLastSeen();
+
+	/**
+	 * @return is this field is inferred.
+	 */
 	public abstract boolean isInferred();
 
 }

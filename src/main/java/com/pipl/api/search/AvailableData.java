@@ -1,0 +1,144 @@
+package com.pipl.api.search;
+
+import java.io.Serializable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class AvailableData implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Expose
+	public FieldCount basic;
+	@Expose
+	public FieldCount premium;
+	
+	/**
+	 * A summary of the data within an API response
+	 *
+	 */
+	public static class FieldCount implements Serializable {
+		private static final long serialVersionUID = 1L;
+		@Expose
+		public int names;
+		@Expose
+		public int addresses;
+		@Expose
+		public int phones;
+		@Expose
+		public int emails;
+		@Expose
+		public int jobs;
+		@Expose
+		public int educations;
+		@Expose
+		public int images;
+		@Expose
+		public int usernames;
+		@Expose
+		@SerializedName("user_ids")
+		public int userIds;
+		@Expose
+		public int languages;
+		@Expose
+		public int ethnicities;
+		@Expose
+		@SerializedName("origin_countries")
+		public int originCountries;
+		@Expose
+		public int urls;
+		@Expose
+		public int relationships;
+		@Expose
+		public int dobs;
+		@Expose
+		public int genders;
+		@Expose
+		@SerializedName("social_profiles")
+		public int socialProfiles;
+		
+		public FieldCount() {
+		}
+
+		public int getNames() {
+			return names;
+		}
+
+		public int getAddresses() {
+			return addresses;
+		}
+
+		public int getPhones() {
+			return phones;
+		}
+
+		public int getEmails() {
+			return emails;
+		}
+
+		public int getJobs() {
+			return jobs;
+		}
+
+		public int getEducations() {
+			return educations;
+		}
+
+		public int getImages() {
+			return images;
+		}
+
+		public int getUsernames() {
+			return usernames;
+		}
+
+		public int getUserIds() {
+			return userIds;
+		}
+
+		public int getLanguages() {
+			return languages;
+		}
+
+		public int getEthnicities() {
+			return ethnicities;
+		}
+
+		public int getOriginCountries() {
+			return originCountries;
+		}
+
+		public int getUrls() {
+			return urls;
+		}
+
+		public int getRelationships() {
+			return relationships;
+		}
+
+		public int getDobs() {
+			return dobs;
+		}
+
+		public int getGenders() {
+			return genders;
+		}
+
+		/**
+		 * @return the number of social profile sources
+		 */
+		public int getSocialProfiles() {
+			return socialProfiles;
+		}
+	}
+
+	public AvailableData() {
+	}
+
+	public FieldCount getBasic() {
+		return basic;
+	}
+
+	public FieldCount getPremium() {
+		return premium;
+	}
+}

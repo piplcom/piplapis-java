@@ -66,6 +66,9 @@ public class Person extends FieldsContainer {
 	@Expose
 	@SerializedName("@search_pointer")
 	public String searchPointer;
+	@Expose
+	@SerializedName("@inferred")
+	public Boolean inferred;
 
 	public Person() {
 	}
@@ -137,6 +140,12 @@ public class Person extends FieldsContainer {
 		this.searchPointer = searchPointer;
 	}
 	
+	public boolean isInferred() {
+		if (inferred==null)
+			return false;
+		return inferred;
+	}
+
 	/**
 	 * A shortcut method to generate a search request
 	 * from a possible person that contained a search pointer.

@@ -303,6 +303,21 @@ public class FieldsContainer implements Serializable {
 				return true;
 			}
 		}
+		for (UserID userId : getUserIds()) {
+			if (userId.isSearchable()) {
+				return true;
+			}
+		}
+		for (Url url : getUrls()) {
+			if (url.isSearchable()) {
+				return true;
+			}
+		}
+		for (Address address : getAddresses()) {
+			if (address.isViableAddressSearch()) {
+				return true;
+			}
+		}
 		return false;
 	}
 

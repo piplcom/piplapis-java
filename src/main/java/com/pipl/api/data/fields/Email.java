@@ -63,16 +63,14 @@ public class Email extends AbstractField {
 	}
 
 	/**
-	 * @return A bool value that indicates whether the address is a valid email
-	 *         address.
+	 * @return true if the address is a valid email address.
 	 */
 	public boolean isValidEmail() {
 		return address != null && address.matches(regex);
 	}
 
 	/**
-	 * @return A bool value that indicates whether the address is a valid
-	 *         address to search by.
+	 * @return true if the address is a valid address to search by.
 	 */
 	public boolean isSearchable() {
 		return isValidEmail() || (addressMd5!=null && addressMd5.length()==32);

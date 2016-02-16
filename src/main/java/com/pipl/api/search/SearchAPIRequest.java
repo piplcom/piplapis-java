@@ -329,9 +329,7 @@ public class SearchAPIRequest {
 	 * you want the request to be sent asynchronously please refer to the
 	 * sendAsync method.
 	 * 
-	 * @param strictValidation
-	 *            `strictValidation` is a bool argument that's passed to the
-	 *            validateQueryParams method.
+	 * @param strictValidation passed to the validateQueryParams method.
 	 * @return The response is returned as a SearchAPIResponse object.
 	 * @throws IllegalArgumentException
 	 *             Raises IllegalArgumentException (raised from

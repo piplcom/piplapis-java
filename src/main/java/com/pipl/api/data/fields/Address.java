@@ -187,18 +187,22 @@ public class Address extends AbstractField {
 	}
 
 	/**
-	 * @return A bool value that indicates whether the address is a valid
-	 *         address to search by.
+	 * @return true if the address is a valid address to search by.
 	 */
 	public boolean isSearchable() {
-		return (!Utils.isNullOrEmpty(raw) || (isValidCountry() && (Utils
-				.isNullOrEmpty(getState()) || isValidState())));
+		return (!Utils.isNullOrEmpty(raw) || !Utils.isNullOrEmpty(country) || !Utils.isNullOrEmpty(state) || !Utils.isNullOrEmpty(city));
 
+	}
+	
+	/**
+	 * @return true if the address is a valid address for an address-only search.
+	 */
+	public boolean isViableAddressSearch() {
+		return !Utils.isNullOrEmpty(raw) || (!Utils.isNullOrEmpty(city) && !Utils.isNullOrEmpty(street) && !Utils.isNullOrEmpty(house));
 	}
 
 	/**
-	 * @return A bool value that indicates whether the object's country is a
-	 *         valid country code.
+	 * @return true if the object's country is a valid country code.
 	 */
 	public boolean isValidCountry() {
 		return !Utils.isNullOrEmpty(country)
@@ -206,8 +210,7 @@ public class Address extends AbstractField {
 	}
 
 	/**
-	 * @return A bool value that indicates whether the object's state is a valid
-	 *         state code.
+	 * @return true if the object's state is a valid state code.
 	 */
 	public boolean isValidState() {
 		return isValidCountry()

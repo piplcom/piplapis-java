@@ -23,6 +23,17 @@ public class UserID extends AbstractField {
 		setContent(content);
 	}
 
+	/**
+	 * @return true if UserID is a valid UserID@service to search by.
+	 */
+	public boolean isSearchable() {
+		if (content==null) {
+			return false;
+		}
+		int indexOfAt = content.indexOf('@');
+		return indexOfAt>0 && indexOfAt<content.length()-1; // Must have something before and after the @
+	}
+
 	public String getContent() {
 		return content;
 	}

@@ -158,10 +158,7 @@ public class Name extends AbstractField {
 	}
 
 	/**
-	 * A bool value that indicates whether the name is a valid name to search
-	 * by.
-	 * 
-	 * @return boolean
+	 * @return true if the name is a valid name to search by
 	 */
 	public boolean isSearchable() {
 		String tmpFirst = Utils.getNotNullString(first);

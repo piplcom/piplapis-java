@@ -30,9 +30,24 @@ public class Url extends AbstractField {
 
 	public Url() {
 	}
+	
+	public Url(String url) {
+		setUrl(url);
+	}
+
+	/**
+	 * @return whether the URL is a valid URL to search by.
+	 */
+	public boolean isSearchable() {
+		return url!=null && !url.isEmpty();
+	}
 
 	public String getUrl() {
 		return url;
+	}
+	
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getCategory() {

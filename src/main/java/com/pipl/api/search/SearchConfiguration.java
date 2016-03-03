@@ -28,6 +28,7 @@ public class SearchConfiguration {
 	public Boolean hideSponsored;
 	public Boolean liveFeeds;
 	public String matchRequirements;
+	public String sourceCategoryRequirements;
 	public String extraParams;
 
 	public SearchConfiguration() {
@@ -63,6 +64,24 @@ public class SearchConfiguration {
 		setMatchRequirements(matchRequirements);
 	}
 	
+	public SearchConfiguration(String protocol, String host, String path,
+			String apiKey, float minimumProbability, String showSources,
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
+			Expression matchRequirements, Expression sourceCategoryRequirements) {
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
+		setMatchRequirements(matchRequirements);
+		setSourceCategoryRequirements(sourceCategoryRequirements);
+	}
+	
+	public SearchConfiguration(String protocol, String host, String path,
+			String apiKey, float minimumProbability, String showSources,
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
+			String matchRequirements, String sourceCategoryRequirements) {
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
+		setMatchRequirements(matchRequirements);
+		setSourceCategoryRequirements(sourceCategoryRequirements);
+	}
+	
 	public SearchConfiguration(Builder builder) {
 		setProtocol(builder.protocol);
 		setHost(builder.host);
@@ -74,6 +93,7 @@ public class SearchConfiguration {
 		setMinimumMatch(builder.minimumMatch);
 		setLiveFeeds(builder.liveFeeds);
 		setMatchRequirements(builder.matchRequirements);
+		setSourceCategoryRequirements(builder.sourceCategoryRequirements);
 	}
 
 	/**
@@ -254,6 +274,29 @@ public class SearchConfiguration {
 		this.matchRequirements = expression.toString();
 	}
 	
+	/**
+	 * @param sourceCategoryRequirements a source category requirements criteria.
+	 * This criteria defines what source categories must be present in an
+	 * API response in order for it to be returned as a match.
+	 * For example: "email" or "email or phone", or 
+	 * "media & (personal_profiles | professional_and_business)".
+	 */
+	public void setSourceCategoryRequirements(String sourceCategoryRequirements) {
+		this.sourceCategoryRequirements = sourceCategoryRequirements;
+	}
+	
+	/**
+	 * @param expression an Expression that describes a source category requirements
+	 * This is a helper method that allows you to build and set a
+	 * source category requirement programmatically.
+	 * See the documentation for 
+	 * {@link com.pipl.api.search.SearchConfiguration.Expression}
+	 * for more details.
+	 */
+	public void setSourceCategoryRequirements(Expression expression) {
+		this.sourceCategoryRequirements = expression.toString();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -277,6 +320,9 @@ public class SearchConfiguration {
 		if (matchRequirements!=null) {
 			sb.append("&match_requirements=").append(matchRequirements);
 		}
+		if (sourceCategoryRequirements!=null) {
+			sb.append("&source_category_requirements=").append(sourceCategoryRequirements);
+		}
 		if (extraParams!=null) {
 			sb.append(extraParams);
 		}
@@ -294,6 +340,7 @@ public class SearchConfiguration {
 		private Float minimumMatch;
 		private Boolean liveFeeds;
 		private String matchRequirements;
+		private String sourceCategoryRequirements;
 		
 		public Builder protocol(String protocol) {
 			this.protocol = protocol;
@@ -350,11 +397,22 @@ public class SearchConfiguration {
 			return this;
 		}
 
+		public Builder sourceCategoryRequirements(String sourceCategoryRequirements) {
+			this.sourceCategoryRequirements = sourceCategoryRequirements;
+			return this;
+		}
+		
+		public Builder sourceCategoryRequirements(Expression expression) {
+			this.sourceCategoryRequirements = expression.toString();
+			return this;
+		}
+
 	}
 
 	/**
-	 * You can use the Expression interface and its implementation, 
-	 * AtomicExpression to programmatically create a matchRequirment
+	 * You can use the Expression interface and its implementations, 
+	 * AtomicExpression and AtomicSourceCategoryExpression to 
+	 * programmatically create a matchRequirment or a sourceCategoryRequirment
 	 * Simply start form AtomicExpressions, use the or/and methods on
 	 * them, and then use the resulting expressions to build even more
 	 * complex expressions.
@@ -388,6 +446,26 @@ public class SearchConfiguration {
 		public Expression or(Expression... expressions) {
 			return LogicalExpression.or(this, expressions);
 		}
+	}
+	
+	public static enum AtomicSourceCategoryExpression implements Expression {
+		PERSONAL_PROFILES, MEDIA, PROFESSIONAL_AND_BUSINESS, PUBLIC_RECORDS, PUBLICATIONS, SCHOOL_AND_CLASSMATES, EMAIL_ADDRESS, BACKGROUND_REPORTS, CONTACT_DETAILS, WEB_PAGES;
+
+		@Override
+		public Type type() {
+			return Type.ATOMIC;
+		}
+
+		@Override
+		public Expression and(Expression... expressions) {
+			return LogicalExpression.and(this, expressions);
+		}
+
+		@Override
+		public Expression or(Expression... expressions) {
+			return LogicalExpression.or(this, expressions);
+		}
+	}
 	
 	private static class LogicalExpression implements Expression {
 		private Type type;
@@ -447,7 +525,6 @@ public class SearchConfiguration {
 			}
 			return new LogicalExpression(Type.OR, sb.toString());
 		}
-	}
 	};
 	
 }

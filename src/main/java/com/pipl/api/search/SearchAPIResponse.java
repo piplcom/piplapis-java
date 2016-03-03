@@ -106,6 +106,8 @@ public class SearchAPIResponse implements Serializable {
 	@Expose
     @SerializedName("@match_requirements")
 	public String matchRequirements;
+    @SerializedName("@source_category_requirements")
+	public String sourceCategoryRequirements;
 
     /**
      * @return Sources that match the person from the query.

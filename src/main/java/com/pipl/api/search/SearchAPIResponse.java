@@ -104,9 +104,9 @@ public class SearchAPIResponse implements Serializable {
     @SerializedName("@search_id")
 	public String searchId;
 	@Expose
-    @SerializedName("@match_requirements")
+    @SerializedName("match_requirements")
 	public String matchRequirements;
-    @SerializedName("@source_category_requirements")
+    @SerializedName("source_category_requirements")
 	public String sourceCategoryRequirements;
 
     /**

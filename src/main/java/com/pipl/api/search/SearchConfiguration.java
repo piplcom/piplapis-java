@@ -59,23 +59,6 @@ public class SearchConfiguration {
 	public SearchConfiguration(String protocol, String host, String path,
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
-			Expression matchRequirements) {
-		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
-		setMatchRequirements(matchRequirements);
-	}
-	
-	public SearchConfiguration(String protocol, String host, String path,
-			String apiKey, float minimumProbability, String showSources,
-			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
-			Expression matchRequirements, Expression sourceCategoryRequirements) {
-		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
-		setMatchRequirements(matchRequirements);
-		setSourceCategoryRequirements(sourceCategoryRequirements);
-	}
-	
-	public SearchConfiguration(String protocol, String host, String path,
-			String apiKey, float minimumProbability, String showSources,
-			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
 			String matchRequirements, String sourceCategoryRequirements) {
 		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
 		setMatchRequirements(matchRequirements);
@@ -263,18 +246,6 @@ public class SearchConfiguration {
 	}
 	
 	/**
-	 * @param expression an Expression that describes a match requirement
-	 * This is a helper method that allows you to build and set a
-	 * match requirement programmatically.
-	 * See the documentation for 
-	 * {@link com.pipl.api.search.SearchConfiguration.Expression}
-	 * for more details.
-	 */
-	public void setMatchRequirements(Expression expression) {
-		this.matchRequirements = expression.toString();
-	}
-	
-	/**
 	 * @param sourceCategoryRequirements a source category requirements criteria.
 	 * This criteria defines what source categories must be present in an
 	 * API response in order for it to be returned as a match.
@@ -283,18 +254,6 @@ public class SearchConfiguration {
 	 */
 	public void setSourceCategoryRequirements(String sourceCategoryRequirements) {
 		this.sourceCategoryRequirements = sourceCategoryRequirements;
-	}
-	
-	/**
-	 * @param expression an Expression that describes a source category requirements
-	 * This is a helper method that allows you to build and set a
-	 * source category requirement programmatically.
-	 * See the documentation for 
-	 * {@link com.pipl.api.search.SearchConfiguration.Expression}
-	 * for more details.
-	 */
-	public void setSourceCategoryRequirements(Expression expression) {
-		this.sourceCategoryRequirements = expression.toString();
 	}
 	
 	@Override
@@ -392,139 +351,11 @@ public class SearchConfiguration {
 			return this;
 		}
 		
-		public Builder matchRequirements(Expression expression) {
-			this.matchRequirements = expression.toString();
-			return this;
-		}
-
 		public Builder sourceCategoryRequirements(String sourceCategoryRequirements) {
 			this.sourceCategoryRequirements = sourceCategoryRequirements;
 			return this;
 		}
 		
-		public Builder sourceCategoryRequirements(Expression expression) {
-			this.sourceCategoryRequirements = expression.toString();
-			return this;
-		}
-
 	}
-
-	/**
-	 * You can use the Expression interface and its implementations, 
-	 * AtomicExpression and AtomicSourceCategoryExpression to 
-	 * programmatically create a matchRequirment or a sourceCategoryRequirment
-	 * Simply start form AtomicExpressions, use the or/and methods on
-	 * them, and then use the resulting expressions to build even more
-	 * complex expressions.
-	 * Every and/or is considered to be in parenthesis if needed.
-	 * Example:
-	 * AtomicExpression.NAME.or(AtomicExpression.ADDRESS, AtomicExpression.PHONE).and(AtomicExpression.EMAIL)
-	 * is equivalent to the matchRequiremnet String: (NAME | ADDRESS | PHONE) & EMAIL.
-	 * You can find more samples in {@link com.pipl.api.ExpressionTest}.
-	 */
-	public static interface Expression {
-		public enum Type {ATOMIC, AND, OR};
-		public Type type();
-		public Expression and(Expression... expressions);
-		public Expression or(Expression... expressions);
-	}
-	
-	public static enum AtomicExpression implements Expression {
-		NAME, ADDRESS, EMAIL, PHONE, JOB, EDUCATION, IMAGE, USERNAME, USER_ID, DOB, URL, GENDER, ETHNICITY, LANGUAGE, ORIGIN_COUNTRY;
-
-		@Override
-		public Type type() {
-			return Type.ATOMIC;
-		}
-
-		@Override
-		public Expression and(Expression... expressions) {
-			return LogicalExpression.and(this, expressions);
-		}
-
-		@Override
-		public Expression or(Expression... expressions) {
-			return LogicalExpression.or(this, expressions);
-		}
-	}
-	
-	public static enum AtomicSourceCategoryExpression implements Expression {
-		PERSONAL_PROFILES, MEDIA, PROFESSIONAL_AND_BUSINESS, PUBLIC_RECORDS, PUBLICATIONS, SCHOOL_AND_CLASSMATES, EMAIL_ADDRESS, BACKGROUND_REPORTS, CONTACT_DETAILS, WEB_PAGES;
-
-		@Override
-		public Type type() {
-			return Type.ATOMIC;
-		}
-
-		@Override
-		public Expression and(Expression... expressions) {
-			return LogicalExpression.and(this, expressions);
-		}
-
-		@Override
-		public Expression or(Expression... expressions) {
-			return LogicalExpression.or(this, expressions);
-		}
-	}
-	
-	private static class LogicalExpression implements Expression {
-		private Type type;
-		private String asString;
-		
-		public LogicalExpression(Type type, String asString) {
-			this.type = type;
-			this.asString = asString;
-		}
-		
-		public Type type() {
-			return type;
-		}
-		
-		public Expression and(Expression... expressions) {
-			return and(this, expressions);
-		}
-		
-		public Expression or(Expression... expressions) {
-			return or(this, expressions);
-		}
-
-		@Override
-		public String toString() {
-			return asString;
-		}
-		
-		public static Expression and(Expression expression, Expression... expressions) {
-			StringBuilder sb = new StringBuilder();
-			if (expression.type()==Type.OR) {
-				sb.append("(");
-			}
-			sb.append(expression.toString());
-			if (expression.type()==Type.OR) {
-				sb.append(")");
-			}
-			for (Expression e : expressions) {
-				sb.append(" & ");
-				if (e.type()==Type.OR) {
-					sb.append("(");
-				}
-				sb.append(e.toString());
-				if (e.type()==Type.OR) {
-					sb.append(")");
-				}
-			}
-			return new LogicalExpression(Type.AND, sb.toString());
-			
-		}
-		
-		public static Expression or(Expression expression, Expression... expressions) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(expression.toString());
-			for (Expression e : expressions) {
-				sb.append(" | ");
-				sb.append(e.toString());
-			}
-			return new LogicalExpression(Type.OR, sb.toString());
-		}
-	};
 	
 }

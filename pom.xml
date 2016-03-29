@@ -4,7 +4,7 @@
 
 	<groupId>com.pipl.api</groupId>
 	<artifactId>piplapis</artifactId>
-	<version>5.0.3</version>
+	<version>5.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>

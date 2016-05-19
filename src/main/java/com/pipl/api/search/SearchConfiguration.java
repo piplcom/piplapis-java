@@ -29,6 +29,7 @@ public class SearchConfiguration {
 	public Boolean liveFeeds;
 	public String matchRequirements;
 	public String sourceCategoryRequirements;
+	public Boolean inferPersons; 
 	public String extraParams;
 
 	public SearchConfiguration() {
@@ -60,9 +61,16 @@ public class SearchConfiguration {
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
 			String matchRequirements, String sourceCategoryRequirements) {
-		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
-		setMatchRequirements(matchRequirements);
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements);
 		setSourceCategoryRequirements(sourceCategoryRequirements);
+	}
+	
+	public SearchConfiguration(String protocol, String host, String path,
+			String apiKey, float minimumProbability, String showSources,
+			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
+			String matchRequirements, String sourceCategoryRequirements, boolean inferPersons) {
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements, sourceCategoryRequirements);
+		setInferPersons(inferPersons);
 	}
 	
 	public SearchConfiguration(Builder builder) {
@@ -77,6 +85,7 @@ public class SearchConfiguration {
 		setLiveFeeds(builder.liveFeeds);
 		setMatchRequirements(builder.matchRequirements);
 		setSourceCategoryRequirements(builder.sourceCategoryRequirements);
+		setInferPersons(builder.inferPersons);
 	}
 
 	/**
@@ -245,6 +254,10 @@ public class SearchConfiguration {
 		this.matchRequirements = matchRequirements;
 	}
 	
+	public String getSourceCategoryRequirements() {
+		return this.sourceCategoryRequirements;
+	}
+	
 	/**
 	 * @param sourceCategoryRequirements a source category requirements criteria.
 	 * This criteria defines what source categories must be present in an
@@ -254,6 +267,22 @@ public class SearchConfiguration {
 	 */
 	public void setSourceCategoryRequirements(String sourceCategoryRequirements) {
 		this.sourceCategoryRequirements = sourceCategoryRequirements;
+	}
+	
+	public boolean getInferPersons() {
+		if (this.inferPersons) {
+			return false;
+		}
+		return this.inferPersons;
+	}
+	
+	/**
+	 * @param InferPersons 
+	 * If set, the API may return person responses made up
+	 * solely from data inferred by statistical analysis.
+	 */
+	public void setInferPersons(boolean inferPersons) {
+		this.inferPersons = inferPersons;
 	}
 	
 	@Override
@@ -282,6 +311,9 @@ public class SearchConfiguration {
 		if (sourceCategoryRequirements!=null) {
 			sb.append("&source_category_requirements=").append(sourceCategoryRequirements);
 		}
+		if (inferPersons!=null) {
+			sb.append("&infer_persons=").append(String.valueOf(inferPersons));
+		}
 		if (extraParams!=null) {
 			sb.append(extraParams);
 		}
@@ -300,6 +332,7 @@ public class SearchConfiguration {
 		private Boolean liveFeeds;
 		private String matchRequirements;
 		private String sourceCategoryRequirements;
+		private Boolean inferPersons;
 		
 		public Builder protocol(String protocol) {
 			this.protocol = protocol;
@@ -353,6 +386,11 @@ public class SearchConfiguration {
 		
 		public Builder sourceCategoryRequirements(String sourceCategoryRequirements) {
 			this.sourceCategoryRequirements = sourceCategoryRequirements;
+			return this;
+		}
+		
+		public Builder inferPersons(boolean inferPersons) {
+			this.inferPersons = inferPersons;
 			return this;
 		}
 		

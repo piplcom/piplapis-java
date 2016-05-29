@@ -101,11 +101,15 @@ public class SearchAPIResponse implements Serializable {
     @SerializedName("@available_sources")
 	public Integer availableSources;
 	@Expose
+    @SerializedName("@persons_count")
+	public Integer personsCount;
+	@Expose
     @SerializedName("@search_id")
 	public String searchId;
 	@Expose
     @SerializedName("match_requirements")
 	public String matchRequirements;
+	@Expose
     @SerializedName("source_category_requirements")
 	public String sourceCategoryRequirements;
 
@@ -252,6 +256,20 @@ public class SearchAPIResponse implements Serializable {
 	 */
 	public int getAvailableSources() {
 		return availableSources;
+	}
+	
+	/**
+	 * @return the number of Persons in the API response
+	 */
+	public int getPersonsCount() {
+		if (personsCount==null) {
+			if (person!=null)
+				return 1;
+			if (possiblePersons==null)
+				return 0;
+			return possiblePersons.size();
+		}
+		return personsCount;
 	}
 	
 	/**

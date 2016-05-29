@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Email extends AbstractField {
 	private static final long serialVersionUID = 1L;
-	private static String regex = "^[\\w.%\\-+]+@[\\w.%\\-]+\\.[a-zA-Z]{2,6}$";
+	private static String regex = "^[a-zA-Z0-9'._%\\-+]+@[a-zA-Z0-9._%\\-]+\\.[a-zA-Z]{2,24}$";
 	@Expose
 	public String address;
 	@Expose

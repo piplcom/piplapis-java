@@ -1,11 +1,13 @@
 package com.pipl.api.search;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pipl.api.data.Utils;
 import com.pipl.api.data.containers.Person;
 import com.pipl.api.data.containers.Relationship;
 import com.pipl.api.data.containers.Source;
@@ -80,6 +82,12 @@ public class SearchAPIResponse implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public String json;
+	public int qpsAlloted;
+	public int qpsCurrent;
+	public int quotaAllotted;
+	public int quotaCurrent;
+	public Date quotaReset;
 	@Expose
 	public Person query;
 	@Expose
@@ -113,6 +121,12 @@ public class SearchAPIResponse implements Serializable {
     @SerializedName("source_category_requirements")
 	public String sourceCategoryRequirements;
 
+	public static SearchAPIResponse fromJson(String json) throws IOException {
+		SearchAPIResponse res = (SearchAPIResponse) Utils.fromJson(json, SearchAPIResponse.class);
+		res.json = json;
+		return res;
+	}
+	
     /**
      * @return Sources that match the person from the query.
      *         Note that the meaning of "match the person from the query" means "Pipl
@@ -431,4 +445,47 @@ public class SearchAPIResponse implements Serializable {
 			return person.relationships.get(0);
 		return null;
     }
+    
+    /**
+     * 
+     * @return the raw JSON return from the server.
+     */
+    public String getJson() {
+    	return json;
+    }
+
+	/**
+	 * @return the number of queries you are allowed to do per second.
+	 */
+	public int getQpsAllotted() {
+		return qpsAlloted;
+	}
+
+	/**
+	 * @return the number of queries you have run this second.
+	 */
+	public int getQpsCurrent() {
+		return qpsCurrent;
+	}
+
+	/**
+	 * @return your quota limit.
+	 */
+	public int getQuotaAllotted() {
+		return quotaAllotted;
+	}
+
+	/**
+	 * @return how much of your quota you already used.
+	 */
+	public int getQuotaCurrent() {
+		return quotaCurrent;
+	}
+
+	/**
+	 * @return The time (in UTC) that your quota will be reset.
+	 */
+	public Date getQuotaReset() {
+		return quotaReset;
+	}
 }

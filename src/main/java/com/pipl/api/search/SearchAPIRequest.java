@@ -2,12 +2,13 @@ package com.pipl.api.search;
 
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
 
@@ -33,6 +34,7 @@ import com.pipl.api.data.fields.Username;
 public class SearchAPIRequest {
 	public static final String USER_AGENT = "piplapis/java";
 	public static SearchConfiguration defaultConfiguration = new SearchConfiguration();
+	private static SimpleDateFormat DATE_FORAMTTER = new SimpleDateFormat("EEEE, MMMM d, y h:m:s a z");
 	public Person person;
 	public SearchConfiguration configuration;
 	
@@ -361,10 +363,34 @@ public class SearchAPIRequest {
 		osw.flush();
 		try {
 			if (urlConnection.getResponseCode()<400) {
-				SearchAPIResponse searchAPIResponse = (SearchAPIResponse) Utils.fromJson(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"), SearchAPIResponse.class);
+				SearchAPIResponse searchAPIResponse = SearchAPIResponse.fromJson(Utils.InputStreamToString(urlConnection.getInputStream(), "UTF-8"));
+				searchAPIResponse.qpsAlloted = urlConnection.getHeaderFieldInt("X-APIKey-QPS-Allotted", 0);
+				searchAPIResponse.qpsCurrent = urlConnection.getHeaderFieldInt("X-APIKey-QPS-Current", 0);
+				searchAPIResponse.quotaAllotted = urlConnection.getHeaderFieldInt("X-APIKey-Quota-Allotted", 0);
+				searchAPIResponse.quotaCurrent = urlConnection.getHeaderFieldInt("X-APIKey-Quota-Current", 0);
+				String temp = urlConnection.getHeaderField("X-Quota-Reset");
+				if (temp!=null) {
+					try {
+						searchAPIResponse.quotaReset = DATE_FORAMTTER.parse(temp);
+					} catch (ParseException e) {
+						// Ignoring exception since it only means the quotaReset member was not set.
+					}
+				}
 				return searchAPIResponse;
 			} else {
-				SearchAPIError searchAPIError = (SearchAPIError) Utils.fromJson(new InputStreamReader(urlConnection.getErrorStream(), "UTF-8"), SearchAPIError.class);
+				SearchAPIError searchAPIError = SearchAPIError.fromJson(Utils.InputStreamToString(urlConnection.getErrorStream(), "UTF-8"));
+				searchAPIError.qpsAllotted = urlConnection.getHeaderFieldInt("X-APIKey-QPS-Allotted", 0);
+				searchAPIError.qpsCurrent = urlConnection.getHeaderFieldInt("X-APIKey-QPS-Current", 0);
+				searchAPIError.quotaAllotted = urlConnection.getHeaderFieldInt("X-APIKey-Quota-Allotted", 0);
+				searchAPIError.quotaCurrent = urlConnection.getHeaderFieldInt("X-APIKey-Quota-Current", 0);
+				String temp = urlConnection.getHeaderField("X-Quota-Reset");
+				if (temp!=null) {
+					try {
+						searchAPIError.quotaReset = DATE_FORAMTTER.parse(temp);
+					} catch (ParseException e) {
+						// Ignoring exception since it only means the quotaReset member was not set.
+					}
+				}
 				throw searchAPIError;
 			}
 		} catch (JsonSyntaxException e) {

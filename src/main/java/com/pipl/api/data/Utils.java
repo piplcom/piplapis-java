@@ -1,6 +1,8 @@
 package com.pipl.api.data;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -128,6 +130,11 @@ public class Utils {
 		return gson.fromJson(json, cls);
 	}
 
+	public static Object fromJson(String json, Class<?> cls) throws IOException {
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		return gson.fromJson(json, cls);
+	}
+
 	public static boolean isNullOrEmpty(String s) {
 		return s == null || s.isEmpty();
 	}
@@ -169,5 +176,18 @@ public class Utils {
 			return "";
 		}
 		return s;
+	}
+	
+	public static String InputStreamToString(InputStream is, String encoding) throws IOException {
+		final char[] buffer = new char[1024];
+		final StringBuilder out = new StringBuilder();
+		Reader in = new InputStreamReader(is, encoding);
+		for (; ; ) {
+		    int rsz = in.read(buffer, 0, buffer.length);
+		    if (rsz < 0)
+		        break;
+		    out.append(buffer, 0, rsz);
+		}
+		return out.toString();
 	}
 }

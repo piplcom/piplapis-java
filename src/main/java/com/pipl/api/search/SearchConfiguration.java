@@ -74,18 +74,18 @@ public class SearchConfiguration {
 	}
 	
 	public SearchConfiguration(Builder builder) {
-		setProtocol(builder.protocol);
-		setHost(builder.host);
-		setPath(builder.path);
-		setApiKey(builder.apiKey);
-		setMinimumProbability(builder.minimumProbability);
-		setShowSources(builder.showSources);
-		setHideSponsored(builder.hideSponsored);
-		setMinimumMatch(builder.minimumMatch);
-		setLiveFeeds(builder.liveFeeds);
-		setMatchRequirements(builder.matchRequirements);
-		setSourceCategoryRequirements(builder.sourceCategoryRequirements);
-		setInferPersons(builder.inferPersons);
+		this.protocol = builder.protocol;
+		this.host = builder.host;
+		this.path = builder.path;
+		this.apiKey = builder.apiKey;
+		this.minimumProbability = builder.minimumProbability;
+		this.showSources = builder.showSources;
+		this.hideSponsored = builder.hideSponsored;
+		this.minimumMatch = builder.minimumMatch;
+		this.liveFeeds = builder.liveFeeds;
+		this.matchRequirements = builder.matchRequirements;
+		this.sourceCategoryRequirements = builder.sourceCategoryRequirements;
+		this.inferPersons = builder.inferPersons;
 	}
 
 	/**

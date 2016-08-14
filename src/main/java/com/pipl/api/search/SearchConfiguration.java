@@ -18,10 +18,14 @@ package com.pipl.api.search;
 public class SearchConfiguration {
 	public static final String ALL_SOURCES = "all";
 	public static final String MATCHING_SOURCES = "matching";
-	public String protocol = "http"; // https is also supported.
-	public String host = "api.pipl.com";
-	public String path = "/search/";
-	public String apiKey = "sample_key";
+	public static final String DEFAULT_PROTOCOL = "http";
+	public static final String DEFAULT_HOST = "api.pipl.com";
+	public static final String DEFAULT_PATH = "/search/";
+	public static final String DEFAULT_KEY = "sample_key";
+	public String protocol = DEFAULT_PROTOCOL; // https is also supported.
+	public String host = DEFAULT_HOST;
+	public String path = DEFAULT_PATH;
+	public String apiKey = DEFAULT_KEY;
 	public Float minimumProbability;
 	public Float minimumMatch;
 	public String showSources;
@@ -119,7 +123,7 @@ public class SearchConfiguration {
 	}
 
 	/**
-	 * @return the URL path of the API  ("/search/v4/" by default)
+	 * @return the URL path of the API  ("/search/" by default)
 	 */
 	public String getPath() {
 		return path;
@@ -321,10 +325,10 @@ public class SearchConfiguration {
 	}
 
 	public static class Builder {
-		private String protocol ="http";
-		private String host = "api.pipl.com";
-		private String path = "/search/v4/";
-		private String apiKey = "samplekey";
+		private String protocol =DEFAULT_PROTOCOL;
+		private String host = DEFAULT_HOST;
+		private String path = DEFAULT_PATH;
+		private String apiKey = DEFAULT_KEY;
 		private Float minimumProbability;
 		private String showSources;
 		private Boolean hideSponsored;
@@ -394,6 +398,9 @@ public class SearchConfiguration {
 			return this;
 		}
 		
+		public SearchConfiguration build() {
+			return new SearchConfiguration(this);
+		}
 	}
 	
 }

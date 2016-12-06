@@ -26,7 +26,8 @@ import java.util.concurrent.Callable;
  * asynchronously.
  */
 public class SearchAPIRequest {
-    public static final String USER_AGENT = "piplapis/java";
+    public static final String USER_AGENT = "piplapis/java/" +
+            SearchAPIRequest.class.getPackage().getImplementationVersion();
     public static SearchConfiguration defaultConfiguration = new SearchConfiguration();
     private static SimpleDateFormat DATE_FORAMTTER = new SimpleDateFormat("EEEE, MMMM d, y h:m:s a z");
     public Person person;

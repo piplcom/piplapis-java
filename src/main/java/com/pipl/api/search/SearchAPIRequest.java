@@ -5,6 +5,8 @@ import com.google.gson.JsonSyntaxException;
 import com.pipl.api.data.Utils;
 import com.pipl.api.data.containers.Person;
 import com.pipl.api.data.fields.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -30,6 +32,7 @@ public class SearchAPIRequest {
             SearchAPIRequest.class.getPackage().getImplementationVersion();
     public static SearchConfiguration defaultConfiguration = new SearchConfiguration();
     private static SimpleDateFormat DATE_FORAMTTER = new SimpleDateFormat("EEEE, MMMM d, y h:m:s a z");
+    private static Logger logger = LoggerFactory.getLogger(SearchAPIRequest.class);
     public Person person;
     public SearchConfiguration configuration;
 
@@ -332,9 +335,10 @@ public class SearchAPIRequest {
             osw.append("person=").append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
         }
         osw.flush();
+        String body = Utils.InputStreamToString(urlConnection.getInputStream(), "UTF-8");
         try {
             if (urlConnection.getResponseCode() < 400) {
-                SearchAPIResponse searchAPIResponse = SearchAPIResponse.fromJson(Utils.InputStreamToString(urlConnection.getInputStream(), "UTF-8"));
+                SearchAPIResponse searchAPIResponse = SearchAPIResponse.fromJson(body);
                 searchAPIResponse.qpsAllotted = urlConnection.getHeaderFieldInt("X-QPS-Allotted", 0);
                 searchAPIResponse.qpsCurrent = urlConnection.getHeaderFieldInt("X-QPS-Current", 0);
                 searchAPIResponse.qpsLiveAllotted = urlConnection.getHeaderFieldInt("X-QPS-Live-Allotted", 0);
@@ -363,7 +367,7 @@ public class SearchAPIRequest {
                 }
                 return searchAPIResponse;
             } else {
-                SearchAPIError searchAPIError = SearchAPIError.fromJson(Utils.InputStreamToString(urlConnection.getErrorStream(), "UTF-8"));
+                SearchAPIError searchAPIError = SearchAPIError.fromJson(body);
                 searchAPIError.qpsAllotted = urlConnection.getHeaderFieldInt("X-QPS-Allotted", 0);
                 searchAPIError.qpsCurrent = urlConnection.getHeaderFieldInt("X-QPS-Current", 0);
                 searchAPIError.qpsLiveAllotted = urlConnection.getHeaderFieldInt("X-QPS-Live-Allotted", 0);
@@ -393,7 +397,11 @@ public class SearchAPIRequest {
                 throw searchAPIError;
             }
         } catch (JsonSyntaxException e) {
-            throw new SearchAPIError("Response did not contain valid JSON. HTTP response code: " + urlConnection.getResponseCode(), urlConnection.getResponseCode(), e);
+            logger.error("Bad Json Syntax", e);
+            logger.info("Body: {}", body);
+            SearchAPIError searchAPIError = new SearchAPIError("Response did not contain valid JSON. HTTP response code: " + urlConnection.getResponseCode(), urlConnection.getResponseCode(), e);
+            searchAPIError.json = body;
+            throw searchAPIError;
         }
     }
 

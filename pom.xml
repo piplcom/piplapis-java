@@ -4,7 +4,7 @@
 
     <groupId>com.pipl.api</groupId>
     <artifactId>piplapis</artifactId>
-    <version>5.0.9</version>
+    <version>5.0.9-logging</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -39,6 +39,18 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.8</version>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

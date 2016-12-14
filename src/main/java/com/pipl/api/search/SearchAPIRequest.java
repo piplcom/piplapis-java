@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
@@ -335,8 +336,17 @@ public class SearchAPIRequest {
             osw.append("person=").append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
         }
         osw.flush();
-        String body = Utils.InputStreamToString(urlConnection.getInputStream(), "UTF-8");
-        logger.error("Body: {}", body);
+
+        int statusCode = urlConnection.getResponseCode();
+        InputStream is;
+        if (statusCode < 400) {
+            is = urlConnection.getInputStream();
+        } else {
+            is = urlConnection.getErrorStream();
+        }
+        String body = Utils.InputStreamToString(is, "UTF-8");
+        logger.error("PIPL Status: {}, Body: {}", statusCode, body);
+
         try {
             if (urlConnection.getResponseCode() < 400) {
                 SearchAPIResponse searchAPIResponse = SearchAPIResponse.fromJson(body);
@@ -398,8 +408,7 @@ public class SearchAPIRequest {
                 throw searchAPIError;
             }
         } catch (JsonSyntaxException e) {
-            logger.error("Bad Json Syntax", e);
-            logger.info("Body: {}", body);
+            logger.error("PIPL Bad Json Syntax", e);
             SearchAPIError searchAPIError = new SearchAPIError("Response did not contain valid JSON. HTTP response code: " + urlConnection.getResponseCode(), urlConnection.getResponseCode(), e);
             searchAPIError.json = body;
             throw searchAPIError;

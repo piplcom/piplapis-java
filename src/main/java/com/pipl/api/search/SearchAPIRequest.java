@@ -336,6 +336,7 @@ public class SearchAPIRequest {
         }
         osw.flush();
         String body = Utils.InputStreamToString(urlConnection.getInputStream(), "UTF-8");
+        logger.error("Body: {}", body);
         try {
             if (urlConnection.getResponseCode() < 400) {
                 SearchAPIResponse searchAPIResponse = SearchAPIResponse.fromJson(body);

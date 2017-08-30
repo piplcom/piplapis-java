@@ -33,7 +33,7 @@ public class Username extends AbstractField {
 	 * @return whether the username is a valid username to search by.
 	 */
 	public boolean isSearchable() {
-		return content != null && Utils.alnumChars(content).length() >= 4;
+		return content != null && Utils.alnumChars(content).length() >= 3;
 	}
 
 	public String getContent() {

@@ -109,7 +109,7 @@ public class SearchAPIRequest {
      *                      name.
      * @param email         email
      * @param phone         phone number. Will be parsed by Pipl.
-     * @param username      username, minimum 4 chars
+     * @param username      username, minimum 3 chars
      * @param country       a 2 letter country code from:
      *                      http://en.wikipedia.org/wiki/ISO_3166-2
      * @param state         a state code from:

@@ -21,7 +21,7 @@ public class SearchConfiguration {
 	public static final String DEFAULT_PROTOCOL = "http";
 	public static final String DEFAULT_HOST = "api.pipl.com";
 	public static final String DEFAULT_PATH = "/search/";
-	public static final String DEFAULT_KEY = "sample_key";
+	public static final String DEFAULT_KEY = null;
 	public String protocol = DEFAULT_PROTOCOL; // https is also supported.
 	public String host = DEFAULT_HOST;
 	public String path = DEFAULT_PATH;

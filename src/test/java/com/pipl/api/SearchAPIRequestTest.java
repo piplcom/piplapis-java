@@ -24,6 +24,7 @@ public class SearchAPIRequestTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		SearchConfiguration defaultConfiguration = SearchAPIRequest.getDefaultConfiguration();
+		defaultConfiguration.apiKey = "*** Please provide your key here ***";
 		defaultConfiguration.setShowSources(SearchConfiguration.ALL_SOURCES);
 	}
 

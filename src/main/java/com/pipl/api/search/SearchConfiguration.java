@@ -1,19 +1,22 @@
 /**
- * 
+ *
  */
 package com.pipl.api.search;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
- * Used to define the metadata of a SearchAPIRequest. 
+ * Used to define the metadata of a SearchAPIRequest.
  * In most cases the default configuration is good enough,
  * except for the apiKey which needs to contain the key
  * provisioned by Pipl.
  * You may also want to look into setting showSources to true.
- * You can modify the default configuration by using the static 
- * SearchAPIRequest.getDefaultConfiguration(), or set a 
+ * You can modify the default configuration by using the static
+ * SearchAPIRequest.getDefaultConfiguration(), or set a
  * configuration for one specific search by passing a
  * Configuration object to that request, before calling
- * one of the send() methods. 
+ * one of the send() methods.
  */
 public class SearchConfiguration {
 	public static final String ALL_SOURCES = "all";
@@ -33,7 +36,7 @@ public class SearchConfiguration {
 	public Boolean liveFeeds;
 	public String matchRequirements;
 	public String sourceCategoryRequirements;
-	public Boolean inferPersons; 
+	public Boolean inferPersons;
 	public String extraParams;
 
 	public SearchConfiguration() {
@@ -60,7 +63,7 @@ public class SearchConfiguration {
 		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds);
 		setMatchRequirements(matchRequirements);
 	}
-	
+
 	public SearchConfiguration(String protocol, String host, String path,
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
@@ -68,7 +71,7 @@ public class SearchConfiguration {
 		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements);
 		setSourceCategoryRequirements(sourceCategoryRequirements);
 	}
-	
+
 	public SearchConfiguration(String protocol, String host, String path,
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
@@ -76,7 +79,7 @@ public class SearchConfiguration {
 		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements, sourceCategoryRequirements);
 		setInferPersons(inferPersons);
 	}
-	
+
 	public SearchConfiguration(Builder builder) {
 		this.protocol = builder.protocol;
 		this.host = builder.host;
@@ -108,7 +111,7 @@ public class SearchConfiguration {
 	}
 
 	/**
-	 * @return the host ("api.pipl.com" by default) 
+	 * @return the host ("api.pipl.com" by default)
 	 */
 	public String getHost() {
 		return host;
@@ -235,14 +238,14 @@ public class SearchConfiguration {
 
 	/**
 	 * @param liveFeeds the liveFeeds to set
-	 * Whether to use live feeds. 
-	 * In plans that include live feeds, can be set to 
+	 * Whether to use live feeds.
+	 * In plans that include live feeds, can be set to
 	 * false for a speedier response.
 	 */
 	public void setLiveFeeds(boolean liveFeeds) {
 		this.liveFeeds = liveFeeds;
 	}
-	
+
 	public String getMatchRequirements() {
 		return matchRequirements;
 	}
@@ -251,44 +254,44 @@ public class SearchConfiguration {
 	 * @param matchRequirements a match requirements criteria.
 	 * This criteria defines what fields must be present in an
 	 * API response in order for it to be returned as a match.
-	 * For example: "email" or "email or phone", or 
+	 * For example: "email" or "email or phone", or
 	 * "email & (phone | name)".
 	 */
 	public void setMatchRequirements(String matchRequirements) {
 		this.matchRequirements = matchRequirements;
 	}
-	
+
 	public String getSourceCategoryRequirements() {
 		return this.sourceCategoryRequirements;
 	}
-	
+
 	/**
 	 * @param sourceCategoryRequirements a source category requirements criteria.
 	 * This criteria defines what source categories must be present in an
 	 * API response in order for it to be returned as a match.
-	 * For example: "email" or "email or phone", or 
+	 * For example: "email" or "email or phone", or
 	 * "media & (personal_profiles | professional_and_business)".
 	 */
 	public void setSourceCategoryRequirements(String sourceCategoryRequirements) {
 		this.sourceCategoryRequirements = sourceCategoryRequirements;
 	}
-	
+
 	public boolean getInferPersons() {
 		if (this.inferPersons) {
 			return false;
 		}
 		return this.inferPersons;
 	}
-	
+
 	/**
-	 * @param InferPersons 
+	 * @param InferPersons
 	 * If set, the API may return person responses made up
 	 * solely from data inferred by statistical analysis.
 	 */
 	public void setInferPersons(boolean inferPersons) {
 		this.inferPersons = inferPersons;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -310,10 +313,19 @@ public class SearchConfiguration {
 			sb.append("&show_sources=").append(String.valueOf(showSources));
 		}
 		if (matchRequirements!=null) {
-			sb.append("&match_requirements=").append(matchRequirements);
-		}
+//		    from https://stackoverflow.com/questions/6030059/url-decoding-unsupportedencodingexception-in-java
+            try {
+                sb.append("&match_requirements=").append(URLEncoder.encode(matchRequirements, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new AssertionError("UTF-8 is unknown");
+            }
+        }
 		if (sourceCategoryRequirements!=null) {
-			sb.append("&source_category_requirements=").append(sourceCategoryRequirements);
+		    try {
+                sb.append("&source_category_requirements=").append(URLEncoder.encode(sourceCategoryRequirements, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                throw new AssertionError("UTF-8 is unknown");
+            }
 		}
 		if (inferPersons!=null) {
 			sb.append("&infer_persons=").append(String.valueOf(inferPersons));
@@ -337,70 +349,70 @@ public class SearchConfiguration {
 		private String matchRequirements;
 		private String sourceCategoryRequirements;
 		private Boolean inferPersons;
-		
+
 		public Builder protocol(String protocol) {
 			this.protocol = protocol;
 			return this;
 		}
-		
+
 		public Builder host(String host) {
 			this.host = host;
 			return this;
 		}
-		
+
 		public Builder path(String path) {
 			this.path = path;
 			return this;
 		}
-		
+
 		public Builder apiKey(String apiKey) {
 			this.apiKey = apiKey;
 			return this;
 		}
-		
+
 		public Builder minimumProbability(float minimumProbability) {
 			this.minimumProbability = minimumProbability;
 			return this;
 		}
-		
+
 		public Builder minimumMatch(float minimumMatch) {
 			this.minimumMatch = minimumMatch;
 			return this;
 		}
-		
+
 		public Builder showSources(String showSources) {
 			this.showSources =showSources;
 			return this;
 		}
-		
+
 		public Builder hideSponsored(boolean hideSponsored) {
 			this.hideSponsored = hideSponsored;
 			return this;
 		}
-		
+
 		public Builder liveFeeds(boolean liveFeeds) {
 			this.liveFeeds = liveFeeds;
 			return this;
 		}
-		
+
 		public Builder matchRequirements(String matchRequirements) {
 			this.matchRequirements = matchRequirements;
 			return this;
 		}
-		
+
 		public Builder sourceCategoryRequirements(String sourceCategoryRequirements) {
 			this.sourceCategoryRequirements = sourceCategoryRequirements;
 			return this;
 		}
-		
+
 		public Builder inferPersons(boolean inferPersons) {
 			this.inferPersons = inferPersons;
 			return this;
 		}
-		
+
 		public SearchConfiguration build() {
 			return new SearchConfiguration(this);
 		}
 	}
-	
+
 }

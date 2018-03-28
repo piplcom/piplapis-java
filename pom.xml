@@ -4,7 +4,7 @@
 
     <groupId>com.pipl.api</groupId>
     <artifactId>piplapis</artifactId>
-    <version>5.0.10</version>
+    <version>5.0.11</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -18,8 +18,8 @@
     </licenses>
     <developers>
         <developer>
-            <name>Josh Liberty</name>
-            <email>developers@pipl.com</email>
+            <name>Amit Danin</name>
+            <email>amit.danin@pipl.com</email>
             <organization>Pipl</organization>
             <organizationUrl>https://pipl.com</organizationUrl>
         </developer>

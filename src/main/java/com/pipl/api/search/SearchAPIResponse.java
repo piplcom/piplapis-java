@@ -113,6 +113,9 @@ public class SearchAPIResponse implements Serializable {
     @Expose
     @SerializedName("source_category_requirements")
     public String sourceCategoryRequirements;
+    @Expose
+    @SerializedName("top_match")
+    public Boolean topMatch;
 
     public static SearchAPIResponse fromJson(String json) throws IOException {
         SearchAPIResponse res = (SearchAPIResponse) Utils.fromJson(json, SearchAPIResponse.class);

@@ -1,5 +1,6 @@
 package com.pipl.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -19,12 +20,17 @@ import com.pipl.api.search.SearchAPIRequest;
 import com.pipl.api.search.SearchAPIResponse;
 import com.pipl.api.search.SearchConfiguration;
 
+
+
 public class SearchAPIRequestTest {
+
+	public static String API_KEY = "*** Please provide your key here ***";
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+
 		SearchConfiguration defaultConfiguration = SearchAPIRequest.getDefaultConfiguration();
-		defaultConfiguration.apiKey = "*** Please provide your key here ***";
+		defaultConfiguration.apiKey = SearchAPIRequestTest.API_KEY;
 		defaultConfiguration.setShowSources(SearchConfiguration.ALL_SOURCES);
 	}
 
@@ -46,11 +52,12 @@ public class SearchAPIRequestTest {
 		assertNotNull(resp.person);
 		assertNotNull(resp.sources);
 	}
-	
+
 	@Test
 	public void testSendAsync() {
 		ExecutorService threadPool = Executors.newSingleThreadExecutor();
-		SearchAPIRequest req = new SearchAPIRequest.Builder().email("clark.kent@example.com").firstName("Clark").build();
+		SearchAPIRequest req = new SearchAPIRequest.Builder().email("clark.kent@example.com").firstName("Clark")
+				.build();
 		Future<SearchAPIResponse> future = threadPool.submit(req.sendAsync(false));
 		SearchAPIResponse resp = null;
 		try {
@@ -74,8 +81,8 @@ public class SearchAPIRequestTest {
 			// The cause contains the actual Exception thrown by send().
 			e.getCause().printStackTrace();
 		}
-		//This search should fail because it fails strict validation
-		assertNull(resp); 
+		// This search should fail because it fails strict validation
+		assertNull(resp);
 	}
 
 	@Test
@@ -102,5 +109,30 @@ public class SearchAPIRequestTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	public void testSetHttps() {
+		SearchConfiguration config =  new SearchConfiguration.Builder().protocol("http").build();
+
+		assertEquals(config.protocol, "https");
+	}
+
+	@Test
+	public void testTopMatch() throws SearchAPIError, IOException {
+		SearchConfiguration config =  new SearchConfiguration.Builder().apiKey(API_KEY).topMatch(true).build();
+		SearchAPIRequest req = new SearchAPIRequest.Builder().configuration(config).email("clark.kent@example.com").build();
+
+		SearchAPIResponse res = req.send();
+		assertEquals(res.topMatch, true);
+	}
+
+	@Test
+	public void testNoTopMatch() throws SearchAPIError, IOException {
+		SearchConfiguration config =  new SearchConfiguration.Builder().apiKey(API_KEY).build();
+		SearchAPIRequest req = new SearchAPIRequest.Builder().configuration(config).email("clark.kent@example.com").build();
+
+		SearchAPIResponse res = req.send();
+		assertEquals(res.topMatch, null);
 	}
 }

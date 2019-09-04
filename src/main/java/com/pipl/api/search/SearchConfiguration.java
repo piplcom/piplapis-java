@@ -163,7 +163,7 @@ public class SearchConfiguration {
 	 */
 	public float getMinimumProbability() {
 		if (minimumProbability==null)
-			return 1;
+			return 0.9;
 		return minimumProbability;
 	}
 

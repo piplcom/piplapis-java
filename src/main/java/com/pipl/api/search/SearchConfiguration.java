@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 public class SearchConfiguration {
 	public static final String ALL_SOURCES = "all";
 	public static final String MATCHING_SOURCES = "matching";
-	public static final String DEFAULT_PROTOCOL = "http";
+	public static final String DEFAULT_PROTOCOL = "https";
 	public static final String DEFAULT_HOST = "api.pipl.com";
 	public static final String DEFAULT_PATH = "/search/";
 	public static final String DEFAULT_KEY = null;
@@ -31,6 +31,7 @@ public class SearchConfiguration {
 	public String apiKey = DEFAULT_KEY;
 	public Float minimumProbability;
 	public Float minimumMatch;
+	public Boolean topMatch;
 	public String showSources;
 	public Boolean hideSponsored;
 	public Boolean liveFeeds;
@@ -87,6 +88,7 @@ public class SearchConfiguration {
 		this.apiKey = builder.apiKey;
 		this.minimumProbability = builder.minimumProbability;
 		this.showSources = builder.showSources;
+		this.topMatch = builder.topMatch;
 		this.hideSponsored = builder.hideSponsored;
 		this.minimumMatch = builder.minimumMatch;
 		this.liveFeeds = builder.liveFeeds;
@@ -145,6 +147,14 @@ public class SearchConfiguration {
 	 */
 	public String getApiKey() {
 		return apiKey;
+	}
+
+	public void setTopMatch(Boolean topMatch) {
+		this.topMatch = topMatch;
+	}
+
+	public Boolean getTopMatch(){
+		return this.topMatch;
 	}
 
 	/**
@@ -312,6 +322,9 @@ public class SearchConfiguration {
 		if (showSources!=null) {
 			sb.append("&show_sources=").append(String.valueOf(showSources));
 		}
+		if (topMatch!=null) {
+			sb.append("&top_match=").append(String.valueOf(topMatch));
+		}
 		if (matchRequirements!=null) {
 //		    from https://stackoverflow.com/questions/6030059/url-decoding-unsupportedencodingexception-in-java
             try {
@@ -342,6 +355,7 @@ public class SearchConfiguration {
 		private String path = DEFAULT_PATH;
 		private String apiKey = DEFAULT_KEY;
 		private Float minimumProbability;
+		private Boolean topMatch;
 		private String showSources;
 		private Boolean hideSponsored;
 		private Float minimumMatch;
@@ -351,7 +365,7 @@ public class SearchConfiguration {
 		private Boolean inferPersons;
 
 		public Builder protocol(String protocol) {
-			this.protocol = protocol;
+			this.protocol = "https";
 			return this;
 		}
 
@@ -372,6 +386,11 @@ public class SearchConfiguration {
 
 		public Builder minimumProbability(float minimumProbability) {
 			this.minimumProbability = minimumProbability;
+			return this;
+		}
+
+		public Builder topMatch(Boolean topMatch) {
+			this.topMatch = topMatch;
 			return this;
 		}
 

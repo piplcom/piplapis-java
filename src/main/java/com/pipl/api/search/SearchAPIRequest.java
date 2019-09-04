@@ -154,7 +154,7 @@ public class SearchAPIRequest {
         }
         if (fromAge != null || toAge != null) {
             fields.add(DOB.fromAgeRange(fromAge == null ? 0 : fromAge,
-                    toAge == null ? 1000 : fromAge));
+                    toAge == null ? 1000 : toAge));
         }
         person = new Person(fields);
         setConfiguration(configuration);

@@ -3,8 +3,8 @@ piplapis Java Library
 
 This is a Java client library for easily integrating Pipl's APIs into your application.
 
-* Full details about Pipl's APIs - [http://pipl.com/dev](http://pipl.com/dev)  
-* This library is available in other languages - [http://pipl.com/dev/guide/code_libraries](http://pipl.com/dev/guide/code_libraries)
+* Full details about Pipl's APIs - [https://pipl.com/api](https://pipl.com/api)  
+* This library is available in other languages - [https://docs.pipl.com/docs/code-libraries](https://docs.pipl.com/docs/code-libraries)
 
 Library Requirements
 --------------------
@@ -15,11 +15,27 @@ Library Requirements
 Installation
 ------------
 
-* Import the piplapis jar file (can be found under `lib/`) or compile the source code (can be found under `src/`) 
+* Import the piplapis jar file (can be found under `lib/`) or compile the source code (can be found under `src/`)
+
+Hello World
+-----------
+```
+import com.pipl.api.search.SearchAPIRequest;
+import com.pipl.api.search.SearchAPIResponse;
+import com.pipl.api.search.SearchConfiguration;
+
+SearchConfiguration configuration = new SearchConfiguration();
+configuration.setProtocol("https");
+configuration.apiKey = 'YOURKEY'
+  
+SearchAPIRequest request = new
+SearchAPIRequest.Builder().email("clark.kent@example.com").firstName("Clark").lastName("Kent").configuration(configuration).build();
+```
 
 Getting Started & Code Snippets
 -------------------------------
 
 **Pipl's Search API**
-* Code snippets - [http://pipl.com/dev/guide/code_snippets](http://pipl.com/dev/guide/code_snippets)  
-* Full reference - [http://pipl.com/dev/reference](http://pipl.com/dev/reference)
+* API Portal - [https://pipl.com/api/](https://pipl.com/api/)
+* Code snippets - [https://docs.pipl.com/docs/code-snippets](https://docs.pipl.com/docs/code-snippets)  
+* Full reference - [https://docs.pipl.com/reference/](https://docs.pipl.com/reference/)

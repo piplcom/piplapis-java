@@ -9,9 +9,9 @@ import com.pipl.api.data.fields.*;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -307,7 +307,6 @@ public class SearchAPIRequest {
      * @throws IllegalArgumentException Raises IllegalArgumentException (raised from validateQueryParams)
      * @throws IOException IOException
      * @throws SearchAPIError SearchAPIError (when the response is returned but contains an error).
-     * @throws URISyntaxException URISyntaxException
      */
     public SearchAPIResponse send(boolean strictValidation)
             throws SearchAPIError, IOException {
@@ -320,7 +319,7 @@ public class SearchAPIRequest {
         urlConnection.setRequestProperty("User-Agent", USER_AGENT);
         urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         urlConnection.connect();
-        OutputStreamWriter osw = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
+        OutputStreamWriter osw = new OutputStreamWriter(urlConnection.getOutputStream(), StandardCharsets.UTF_8);
         if (person.searchPointer != null) {
             osw.append("search_pointer=").append(person.searchPointer);
         } else {
@@ -412,6 +411,7 @@ public class SearchAPIRequest {
 
     /**
      * Same as sendAsync(boolean strictValidation) but with strictValidation=true
+     * @return request
      */
     public CallableSearchRequest sendAsync() {
         return new CallableSearchRequest();
@@ -447,7 +447,7 @@ public class SearchAPIRequest {
             sb.append("person=");
             try {
                 sb.append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
-            } catch (Throwable t) {
+            } catch (Exception t) {
             }
         }
         return sb.toString();

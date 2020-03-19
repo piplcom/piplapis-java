@@ -226,11 +226,11 @@ public class Address extends AbstractField {
 	 *
 	 *         <blockquote>
 	 * 
-	 *         <pre>
-	 *             >>> Address address = new Address.Builder().country("FR").build();
-	 *             >>> System.out.println(address.getCountry());
+	 *         <pre>grt;
+	 *             &gt;&gt;&gt; Address address = new Address.Builder().country("FR").build();
+	 *             &gt;&gt;&gt; System.out.println(address.getCountry());
 	 *             "FR"
-	 *             >>> System.out.println(address.countryFull());
+	 *             &gt;&gt;&gt; System.out.println(address.countryFull());
 	 *             "France"
 	 *
 	 * </pre>
@@ -252,10 +252,10 @@ public class Address extends AbstractField {
 	 *         <blockquote>
 	 * 
 	 *         <pre>
-	 * 			>>> Address address = new Address.Builder().country("US").state("CO").build();
-	 * 				>>> System.out.println(address.getState());
+	 * 			&gt;&gt;&gt; Address address = new Address.Builder().country("US").state("CO").build();
+	 * 				&gt;&gt;&gt; System.out.println(address.getState());
 	 * 				"CO"
-	 * 				>>> System.out.println(address.stateFull());
+	 * 				&gt;&gt;&gt; System.out.println(address.stateFull());
 	 * 				"Colorado"
 	 *
 	 * </pre>

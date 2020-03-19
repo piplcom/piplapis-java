@@ -4,7 +4,7 @@
 
     <groupId>com.pipl.api</groupId>
     <artifactId>piplapis</artifactId>
-    <version>5.0.12</version>
+    <version>5.0.12-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -131,8 +131,24 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>github-snapshot</id>
+            <name>GitHub piplcom snapshot</name>
+            <url>https://maven.pkg.github.com/piplcom/maven-packages/</url>
+            <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
+        <repository>
+            <id>github-release</id>
+            <name>GitHub piplcom release</name>
+            <url>https://maven.pkg.github.com/piplcom/maven-packages/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <!-- TODO: replace above with below after test -->
+<!--        <repository>-->
+<!--            <id>central-release</id>-->
+<!--            <name>Maven Central via sonatype.org</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--            <uniqueVersion>false</uniqueVersion>-->
+<!--        </repository>-->
     </distributionManagement>
+
 </project>

@@ -41,4 +41,4 @@ jobs:
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
       - name: Maven build and deploy
-        run: mvn deploy
+        run: mvn deploy -Dmaven.test.skip=true

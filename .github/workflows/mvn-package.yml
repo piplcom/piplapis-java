@@ -34,4 +34,4 @@ jobs:
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
       - name: Maven build
-        run: mvn package
+        run: mvn package -Dmaven.test.skip=true

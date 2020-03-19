@@ -19,7 +19,6 @@ import java.util.concurrent.Callable;
 
 /**
  * A request to Pipl's Search API.
- * <p/>
  * Sending the request and getting the response is very simple and can be done
  * by either making a blocking call to request.send() or by making a
  * non-blocking call to request.sendAsync(callback) which sends the request
@@ -300,19 +299,15 @@ public class SearchAPIRequest {
 
     /**
      * Send the request and return the response or raise SearchAPIError.
-     * <p/>
      * Calling this method blocks the program until the response is returned, if
      * you want the request to be sent asynchronously please refer to the
      * sendAsync method.
-     *
      * @param strictValidation passed to the validateQueryParams method.
      * @return The response is returned as a SearchAPIResponse object.
-     * @throws IllegalArgumentException Raises IllegalArgumentException (raised from
-     *                                  validateQueryParams)
-     * @throws IOException              IOException
-     * @throws SearchAPIError           SearchAPIError (when the response is returned but contains an
-     *                                  error).
-     * @throws URISyntaxException
+     * @throws IllegalArgumentException Raises IllegalArgumentException (raised from validateQueryParams)
+     * @throws IOException IOException
+     * @throws SearchAPIError SearchAPIError (when the response is returned but contains an error).
+     * @throws URISyntaxException URISyntaxException
      */
     public SearchAPIResponse send(boolean strictValidation)
             throws SearchAPIError, IOException {
@@ -403,7 +398,6 @@ public class SearchAPIRequest {
 
     /**
      * Same as send() but in a non-blocking way.
-     * <p/>
      * Use this method if you want to send the request asynchronously so your
      * program can do other things while waiting for the response.
      *

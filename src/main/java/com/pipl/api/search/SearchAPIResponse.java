@@ -19,7 +19,6 @@ import java.util.*;
  *
  * A response contains 4 main data elements:
  *
- * <p>
  * - available data summary (piplapis.data.available_data.AvailableData).
  * This is a summary of the data available for your search. Please note that
  * some available data may not be present in the response due to data package limits.
@@ -53,7 +52,7 @@ import java.util.*;
  * perfect match (only these are shown if the search contained show_sources=matching),
  * or they may belong to possibly related people. In any case, by default API
  * responses do not contain sources, and to use them you must pass a value for show_sources.
- * <p>
+ *
  * the response also contains the query as it was interpreted by Pipl. This
  * part is useful for verification and debugging, if some query parameters
  * were invalid you can see in response.query that they were ignored, you can

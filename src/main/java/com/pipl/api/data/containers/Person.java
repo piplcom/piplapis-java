@@ -20,7 +20,6 @@ import com.pipl.api.search.SearchAPIRequest;
  * Each type of field has its on container (note that
  * Person is a subclass of FieldsContainer). For example:
  *
- * <p>
  * <blockquote>
  * 
  * <pre>

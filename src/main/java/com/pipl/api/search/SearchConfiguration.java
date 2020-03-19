@@ -1,6 +1,3 @@
-/**
- *
- */
 package com.pipl.api.search;
 
 import java.io.UnsupportedEncodingException;
@@ -265,7 +262,7 @@ public class SearchConfiguration {
 	 * This criteria defines what fields must be present in an
 	 * API response in order for it to be returned as a match.
 	 * For example: "email" or "email or phone", or
-	 * "email & (phone | name)".
+	 * "email &amp; (phone | name)".
 	 */
 	public void setMatchRequirements(String matchRequirements) {
 		this.matchRequirements = matchRequirements;
@@ -280,7 +277,7 @@ public class SearchConfiguration {
 	 * This criteria defines what source categories must be present in an
 	 * API response in order for it to be returned as a match.
 	 * For example: "email" or "email or phone", or
-	 * "media & (personal_profiles | professional_and_business)".
+	 * "media &amp; (personal_profiles | professional_and_business)".
 	 */
 	public void setSourceCategoryRequirements(String sourceCategoryRequirements) {
 		this.sourceCategoryRequirements = sourceCategoryRequirements;
@@ -294,9 +291,7 @@ public class SearchConfiguration {
 	}
 
 	/**
-	 * @param InferPersons
-	 * If set, the API may return person responses made up
-	 * solely from data inferred by statistical analysis.
+	 * @param inferPersons If set, the API may return person responses made up solely from data inferred by statistical analysis.
 	 */
 	public void setInferPersons(boolean inferPersons) {
 		this.inferPersons = inferPersons;

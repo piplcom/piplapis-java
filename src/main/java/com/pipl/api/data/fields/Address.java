@@ -223,7 +223,7 @@ public class Address extends AbstractField {
 
 	/**
 	 * @return the full name of the object's country. example:
-	 *         <p>
+	 *
 	 *         <blockquote>
 	 * 
 	 *         <pre>
@@ -248,7 +248,7 @@ public class Address extends AbstractField {
 
 	/**
 	 * @return the full name of the object's state. example:
-	 *         <p>
+	 *
 	 *         <blockquote>
 	 * 
 	 *         <pre>

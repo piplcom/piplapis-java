@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Date-of-birth of A person.
- * <p/>
+ *
  * Comes as a date-range (the exact date is within the range, if the exact date
  * is known the range will simply be with start=end).
  */
@@ -59,7 +59,7 @@ public class DOB extends AbstractField {
 
 	/**
 	 * The estimated age of the person.
-	 * <p/>
+	 *
 	 * Note that A DOB object is based on a date-range and the exact date is
 	 * usually unknown so for age calculation the the middle of the range is
 	 * assumed to be the real date-of-birth.

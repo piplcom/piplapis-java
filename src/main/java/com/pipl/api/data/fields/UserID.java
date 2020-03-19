@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 /**
  * An ID associated with a person.
- * <p/>
+ *
  * The ID is a string that's used by the site to uniquely identify a person,
  * it's guaranteed that in the site this string identifies exactly one person.
  */

@@ -5,7 +5,7 @@ import com.pipl.api.data.Utils;
 
 /**
  * A username/screen-name associated with the person.
- * <p/>
+ *
  * Note that even though in many sites the username uniquely identifies one
  * person it's not guaranteed, some sites allow different people to use the same
  * username.

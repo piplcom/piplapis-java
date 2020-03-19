@@ -28,7 +28,7 @@ public class DateRange implements Serializable {
 
 	/**
 	 * `start` and `end` are <code>Date</code> objects, both are required.
-	 * <p/>
+	 *
 	 * For creating a DateRange object for an exact date (like if exact
 	 * date-of-birth is known) just pass the same value for `start` and `end`.
 	 * 

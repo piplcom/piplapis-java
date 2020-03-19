@@ -232,7 +232,7 @@ public class Address extends AbstractField {
 	 *             "FR"
 	 *             >>> System.out.println(address.countryFull());
 	 *             "France"
-	 *         <p/>
+	 *
 	 * </pre>
 	 * 
 	 *         </blockquote> Output: France
@@ -257,7 +257,7 @@ public class Address extends AbstractField {
 	 * 				"CO"
 	 * 				>>> System.out.println(address.stateFull());
 	 * 				"Colorado"
-	 *         <p/>
+	 *
 	 * </pre>
 	 * 
 	 *         </blockquote> Output: Colorado

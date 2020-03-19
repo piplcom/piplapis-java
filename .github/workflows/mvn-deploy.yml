@@ -49,7 +49,7 @@ jobs:
         if: github.ref != 'refs/heads/master'
         run: |
           find_token=`<distributionManagement/>`
-          dist_repo=`<repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository>`
+          dist_repo=`<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>`
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
       - name: Maven build and deploy

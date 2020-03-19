@@ -28,10 +28,10 @@ jobs:
         run: |
           sed -i "s/-SNAPSHOT<\/version>/<\/version>/1" pom.xml
 
-       - name: Set release version (master)
-         if: github.ref == 'refs/heads/master'
-         run: |
-           sed -i "s/-SNAPSHOT<\/version>/<\/version>/1" pom.xml
+      - name: Set release version (master)
+        if: github.ref == 'refs/heads/master'
+        run: |
+          sed -i "s/-SNAPSHOT<\/version>/<\/version>/1" pom.xml
 
       - name: Set snapshot version
         if: github.ref != 'refs/heads/master'

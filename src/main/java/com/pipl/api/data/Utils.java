@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 /**
  * The <code>Utils</code> class is an utility class which has static utility
  * methods.
- * <p/>
  */
 
 public class Utils {

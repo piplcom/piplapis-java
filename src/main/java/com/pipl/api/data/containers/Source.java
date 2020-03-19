@@ -8,14 +8,14 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * A source objects holds the data retrieved from a specific source.
- * <p/>
+ *
  * Every source object is based on the URL of the page where the
  * data is available, and the data itself that comes as field
  * objects (Name, Address, Email etc).
- * <p/>
+ *
  * Each type of field has its own container (note that Source is a subclass of
  * FieldsContainer).
- * <p/>
+ *
  * Sources come as results for a query and therefore they have attributes that
  * indicate if and how much they match the query. They also have a validity
  * timestamp available as an attribute.

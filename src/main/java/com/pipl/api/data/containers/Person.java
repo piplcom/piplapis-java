@@ -11,15 +11,15 @@ import com.pipl.api.search.SearchAPIRequest;
 
 /**
  * A Person object is all the data available on an individual.
- * <p/>
+ *
  * The Person object is essentially very similar in its structure to the Source
  * object, the main difference is that data about an individual can come from
  * multiple sources while a record is data from one source.
- * <p/>
+ *
  * The person's data comes as field objects (Name, Address, Email etc).
  * Each type of field has its on container (note that
  * Person is a subclass of FieldsContainer). For example:
- * <p/>
+ *
  * <p>
  * <blockquote>
  * 
@@ -43,8 +43,8 @@ import com.pipl.api.search.SearchAPIRequest;
  * </pre>
  * 
  * </blockquote>
- * <p/>
- * <p/>
+ *
+ *
  * Note that a person object is used in the Search API in two ways: - It might
  * come back as a result for a query (see SearchAPIResponse). - It's possible to
  * build a person object with all the information you already have about the

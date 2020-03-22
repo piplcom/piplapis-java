@@ -79,9 +79,8 @@ jobs:
           dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
-      - name: GPG
+      - name: GPG2
         run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
-
 
       - name: Maven build and deploy
         run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}

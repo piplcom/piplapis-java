@@ -47,8 +47,7 @@ jobs:
           dist_repo='<distributionManagement><repository><id>central-release<\/id><name>Maven Central via sonatype.org<\/name><url>https:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url><uniqueVersion>false<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
-      - name: GPG
-        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
-
       - name: Maven build and deploy
-        run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}
+        run: |
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
+          mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}

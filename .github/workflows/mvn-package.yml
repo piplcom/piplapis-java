@@ -40,4 +40,4 @@ jobs:
       - name: Maven build
         run: |
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
-          mvn package -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}
+          mvn package -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'

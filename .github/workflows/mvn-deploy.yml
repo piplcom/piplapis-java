@@ -1,4 +1,4 @@
-name: mvn deploy1
+name: mvn deploy
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: build and deploy maven library to private1
+    name: build and deploy maven library to private
     runs-on: ubuntu-latest
 
     steps:
@@ -52,34 +52,7 @@ jobs:
           dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
-      - name: Set distribution repo
-        if: github.ref != 'refs/heads/master'
-        run: |
-          find_token='<distributionManagement\/>'
-          dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
-          sed -i "s/$find_token/$dist_repo/1" pom.xml
-
       - name: GPG
-        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import ./private.key
-
-      - name: Set distribution repo
-        if: github.ref != 'refs/heads/master'
-        run: |
-          find_token='<distributionManagement\/>'
-          dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
-          sed -i "s/$find_token/$dist_repo/1" pom.xml
-
-      - name: GPG
-        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import ./private.key
-
-      - name: Set distribution repo
-        if: github.ref != 'refs/heads/master'
-        run: |
-          find_token='<distributionManagement\/>'
-          dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
-          sed -i "s/$find_token/$dist_repo/1" pom.xml
-
-      - name: GPG2
         run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
 
       - name: Maven build and deploy

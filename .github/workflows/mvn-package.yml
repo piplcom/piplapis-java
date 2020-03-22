@@ -37,6 +37,7 @@ jobs:
           branch_name=`echo ${GITHUB_REF##*\/} | sed 's/^.*\/\([^\/]*\)$/\1/' | sed "s/[^[:alnum:]-]//g"`
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
+
       - name: Maven build
         run: |
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import

@@ -16,13 +16,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-
 /**
  * The <code>Utils</code> class is an utility class which has static utility
  * methods.
- * <p/>
  */
-
 public class Utils {
 	public static Map<String, String> COUNTRIES = new HashMap<String, String>();
 	public static Map<String, Map<String, String>> STATES = new HashMap<String, Map<String, String>>();
@@ -69,8 +66,7 @@ public class Utils {
 
 	/**
 	 * Strip all non alphabetic characters from the string.
-	 * 
-	 * @param s
+	 * @param s input string
 	 * @return The string without any non alphabetic characters.
 	 */
 	public static String alphaChars(String s) {
@@ -85,8 +81,7 @@ public class Utils {
 
 	/**
 	 * Strip all non alphanumeric characters from the string.
-	 * 
-	 * @param s
+	 * @param s input string
 	 * @return The string without any non alphanumeric characters.
 	 */
 	public static String alnumChars(String s) {
@@ -101,11 +96,9 @@ public class Utils {
 
 	/**
 	 * Serialize the object to a JSON string.
-	 * 
-	 * @param object
-	 *            object to be serialized
+	 * @param object object to be serialized
 	 * @return serialized json String
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	public static String toJson(Object object) throws IOException {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd")
@@ -117,19 +110,23 @@ public class Utils {
 
 	/**
 	 * Deserialize the object from a JSON string.
-	 * 
-	 * @param json
-	 *            json string
-	 * @param cls
-	 *            <code>Class</code>
+	 * @param json json reader
+	 * @param cls <code>Class</code>
 	 * @return Deserialized object
-	 * @throws IOException
+	 * @throws IOException IOException
 	 */
 	public static Object fromJson(Reader json, Class<?> cls) throws IOException {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		return gson.fromJson(json, cls);
 	}
 
+	/**
+	 * Deserialize the object from a JSON string.
+	 * @param json json string
+	 * @param cls <code>Class</code>
+	 * @return Deserialized object
+	 * @throws IOException IOException
+	 */
 	public static Object fromJson(String json, Class<?> cls) throws IOException {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		return gson.fromJson(json, cls);

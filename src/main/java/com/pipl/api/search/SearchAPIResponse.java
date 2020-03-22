@@ -16,10 +16,9 @@ import java.util.*;
 
 /**
  * A response from Pipl's Search API.
- * <p/>
+ *
  * A response contains 4 main data elements:
- * <p/>
- * <p>
+ *
  * - available data summary (piplapis.data.available_data.AvailableData).
  * This is a summary of the data available for your search. Please note that
  * some available data may not be present in the response due to data package limits.
@@ -27,7 +26,7 @@ import java.util.*;
  * basic will be None):
  * - basic: shows the data available with a basic coverage plan
  * - premium: shows the data available with a premium coverage plan
- * <p/>
+ *
  * - a person (piplapis.data.containers.Person) that is the data object
  * representing all the information available for the person you were
  * looking for.
@@ -41,11 +40,11 @@ import java.util.*;
  * a combination of identifiers that only lead to one person, such as
  * "Clark Kent from Smallville, KS, US", you can expect to get
  * a response containing a single person object.
- * <p/>
+ *
  * - a list of possible persons (piplapis.data.containers.Person). If our identity-resolution
  * engine did not find a definite match, you can use this list to further
  * drill down using the persons' search_pointer field.
- * <p/>
+ *
  * - a list of sources (piplapis.data.containers.Source). Sources are the breakdown
  * of a response's data into its origin - so each source will contain data that came
  * from one source (e.g. a facebook profile, a public record, etc).
@@ -53,13 +52,13 @@ import java.util.*;
  * perfect match (only these are shown if the search contained show_sources=matching),
  * or they may belong to possibly related people. In any case, by default API
  * responses do not contain sources, and to use them you must pass a value for show_sources.
- * <p>
+ *
  * the response also contains the query as it was interpreted by Pipl. This
  * part is useful for verification and debugging, if some query parameters
  * were invalid you can see in response.query that they were ignored, you can
  * also see how the name/address from your query were parsed in case you
  * passed raw_name/raw_address in the query.
- * <p/>
+ *
  */
 
 public class SearchAPIResponse implements Serializable {
@@ -142,7 +141,7 @@ public class SearchAPIResponse implements Serializable {
 
     /**
      * @return the sources grouped by the domain they came from.
-     * <p/>
+     *
      * The return value is a Map, a key in this Map is a domain
      * and the value is a list of all the sources with this domain.
      */
@@ -164,7 +163,7 @@ public class SearchAPIResponse implements Serializable {
 
     /**
      * @return the sources grouped by their category.
-     * <p/>
+     *
      * The return value is a Map, a key in this Map is a category
      * and the value is a list of all the sources with this category.
      */
@@ -186,7 +185,7 @@ public class SearchAPIResponse implements Serializable {
 
     /**
      * @return the records grouped by their match attribute.
-     * <p/>
+     *
      * The return value is a Map, a key in this Map is a match
      * Float and the value is a list of all the records with this
      * match value.

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * A general purpose element that holds any meaningful string that's related to
  * the person.
- * <p/>
+ *
  * Used for holding data about the person that either couldn't be clearly
  * classified or was classified as something different than the available data
  * fields.

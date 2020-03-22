@@ -10,14 +10,12 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Date-of-birth of A person.
- * <p/>
+ *
  * Comes as a date-range (the exact date is within the range, if the exact date
  * is known the range will simply be with start=end).
  */
 public class DOB extends AbstractField {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Expose
@@ -30,9 +28,7 @@ public class DOB extends AbstractField {
 	}
 	
 	/**
-	 * @param dateRange
-	 *            the date-of-birth is within
-	 *            this range.
+	 * @param dateRange the date-of-birth is within this range.
 	 */
 	public DOB(DateRange dateRange) {
 		setDateRange(dateRange);
@@ -59,11 +55,10 @@ public class DOB extends AbstractField {
 
 	/**
 	 * The estimated age of the person.
-	 * <p/>
+	 *
 	 * Note that A DOB object is based on a date-range and the exact date is
 	 * usually unknown so for age calculation the the middle of the range is
 	 * assumed to be the real date-of-birth.
-	 * 
 	 * @return age
 	 */
 	public int age() {
@@ -92,7 +87,6 @@ public class DOB extends AbstractField {
 
 	/**
 	 * A tuple of two ints - the minimum and maximum age of the person.
-	 * 
 	 * @return <code>Tuple</code> object - example : (10, 55)
 	 */
 	public ArrayList<Integer> ageRange() {
@@ -109,13 +103,10 @@ public class DOB extends AbstractField {
 	}
 
 	/**
-	 * Take a person's birth year (int) and return a new DOB object suitable for
-	 * him.
-	 * 
-	 * @param birthYear
+	 * Take a person's birth year (int) and return a new DOB object suitable for him.
+	 * @param birthYear birthYear
 	 * @return <code>DOB</code> object
 	 */
-
 	public static DOB fromBirthYear(int birthYear) {
 		if (birthYear < 0) {
 			throw new IllegalArgumentException("birth year must be positive");
@@ -124,11 +115,8 @@ public class DOB extends AbstractField {
 	}
 
 	/**
-	 * Take a person's birth date <code>Date</code> and return a new DOB object
-	 * suitable for him.
-	 * 
-	 * @param birthDate
-	 *            <code>Date</code> object
+	 * Take a person's birth date <code>Date</code> and return a new DOB object suitable for him.
+	 * @param birthDate <code>Date</code> object
 	 * @return <code>DOB</code> object
 	 */
 	public static DOB fromBirthDate(Date birthDate) {
@@ -141,9 +129,7 @@ public class DOB extends AbstractField {
 
 	/**
 	 * Take a person's age (int) and return a new DOB object suitable for him.
-	 * 
-	 * @param age
-	 *            age
+	 * @param age age
 	 * @return <code>DOB</code> object
 	 */
 	public static DOB fromAge(int age) {
@@ -153,11 +139,8 @@ public class DOB extends AbstractField {
 	/**
 	 * Take a person's minimal and maximal age and return a new DOB object
 	 * suitable for him.
-	 * 
-	 * @param start
-	 *            minimum age
-	 * @param end
-	 *            maximum age
+	 * @param start minimum age
+	 * @param end maximum age
 	 * @return <code>DOB</code> object
 	 */
 	public static DOB fromAgeRange(int start, int end) {

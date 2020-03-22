@@ -9,9 +9,9 @@ import com.pipl.api.data.fields.*;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ import java.util.concurrent.Callable;
 
 /**
  * A request to Pipl's Search API.
- * <p/>
  * Sending the request and getting the response is very simple and can be done
  * by either making a blocking call to request.send() or by making a
  * non-blocking call to request.sendAsync(callback) which sends the request
@@ -300,19 +299,14 @@ public class SearchAPIRequest {
 
     /**
      * Send the request and return the response or raise SearchAPIError.
-     * <p/>
      * Calling this method blocks the program until the response is returned, if
      * you want the request to be sent asynchronously please refer to the
      * sendAsync method.
-     *
      * @param strictValidation passed to the validateQueryParams method.
      * @return The response is returned as a SearchAPIResponse object.
-     * @throws IllegalArgumentException Raises IllegalArgumentException (raised from
-     *                                  validateQueryParams)
-     * @throws IOException              IOException
-     * @throws SearchAPIError           SearchAPIError (when the response is returned but contains an
-     *                                  error).
-     * @throws URISyntaxException
+     * @throws IllegalArgumentException Raises IllegalArgumentException (raised from validateQueryParams)
+     * @throws IOException IOException
+     * @throws SearchAPIError SearchAPIError (when the response is returned but contains an error).
      */
     public SearchAPIResponse send(boolean strictValidation)
             throws SearchAPIError, IOException {
@@ -325,7 +319,7 @@ public class SearchAPIRequest {
         urlConnection.setRequestProperty("User-Agent", USER_AGENT);
         urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         urlConnection.connect();
-        OutputStreamWriter osw = new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8");
+        OutputStreamWriter osw = new OutputStreamWriter(urlConnection.getOutputStream(), StandardCharsets.UTF_8);
         if (person.searchPointer != null) {
             osw.append("search_pointer=").append(person.searchPointer);
         } else {
@@ -403,7 +397,6 @@ public class SearchAPIRequest {
 
     /**
      * Same as send() but in a non-blocking way.
-     * <p/>
      * Use this method if you want to send the request asynchronously so your
      * program can do other things while waiting for the response.
      *
@@ -418,6 +411,7 @@ public class SearchAPIRequest {
 
     /**
      * Same as sendAsync(boolean strictValidation) but with strictValidation=true
+     * @return request
      */
     public CallableSearchRequest sendAsync() {
         return new CallableSearchRequest();
@@ -453,7 +447,7 @@ public class SearchAPIRequest {
             sb.append("person=");
             try {
                 sb.append(URLEncoder.encode(Utils.toJson(person), "UTF-8"));
-            } catch (Throwable t) {
+            } catch (Exception t) {
             }
         }
         return sb.toString();

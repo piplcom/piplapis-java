@@ -1,4 +1,4 @@
-name: mvn deploy
+name: mvn deploy1
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: build and deploy maven library to private
+    name: build and deploy maven library to private1
     runs-on: ubuntu-latest
 
     steps:

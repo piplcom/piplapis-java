@@ -39,7 +39,7 @@ jobs:
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
       - name: GPG
-        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import ./private.key
+        run: tr -d '\n' ${{secrets.GPG_SECRET}} | base64 -d | gpg --import ./private.key
 
       - name: Maven build
         run: mvn package -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}

@@ -82,5 +82,6 @@ jobs:
       - name: GPG
         run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
 
+
       - name: Maven build and deploy
         run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}

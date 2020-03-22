@@ -10,6 +10,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Java client library for the Pipl search API.</description>
     <url>https://pipl.com/dev/</url>
+    <scm><url>https://github.com/piplcom/piplapis-java</url></scm>
 
     <licenses>
         <license>
@@ -58,6 +59,20 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.2.1</version>
                 <executions>
@@ -73,9 +88,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.1.1</version>
-                <configuration>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

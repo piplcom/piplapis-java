@@ -37,8 +37,7 @@ jobs:
           branch_name=`echo ${GITHUB_REF##*\/} | sed 's/^.*\/\([^\/]*\)$/\1/' | sed "s/[^[:alnum:]-]//g"`
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
-
       - name: Maven build
         run: |
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
           mvn package -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'

@@ -56,4 +56,6 @@ jobs:
         run: |
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import -no-tty --batch --yes
+          gpg --list-keys
+          gpg --list-secret-keys
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}}

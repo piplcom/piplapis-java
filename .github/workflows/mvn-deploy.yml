@@ -58,7 +58,7 @@ jobs:
           echo pinentry-mode loopback >> ~/.gnupg/gpg.conf
           echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
           echo RELOADAGENT | gpg-connect-agent
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --allow-secret-key-import
 
       - name: Maven build and deploy
         run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

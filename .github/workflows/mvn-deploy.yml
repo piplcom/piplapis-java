@@ -52,10 +52,8 @@ jobs:
           dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
+      - name: Import key
+        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
+
       - name: Maven build and deploy
-        run: |
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
-          echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import -no-tty --batch --yes
-          gpg --list-keys
-          gpg --list-secret-keys
-          mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg
+        run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

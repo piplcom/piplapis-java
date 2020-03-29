@@ -53,10 +53,10 @@ jobs:
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
       - name: Import key
-        run: |
-          GPG_TTY=$(tty)
-          export GPG_TTY
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --allow-secret-key-import
+        run: echo ::set-env name=jar_file::${{env.tty}}
+
+      - name: Import key 2
+        run: echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --allow-secret-key-import
 
       - name: Maven build and deploy
         run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

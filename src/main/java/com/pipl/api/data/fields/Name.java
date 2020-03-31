@@ -164,9 +164,9 @@ public class Name extends AbstractField {
 		String tmpFirst = Utils.getNotNullString(first);
 		String tmpLast = Utils.getNotNullString(last);
 		String tmpRaw = Utils.getNotNullString(raw);
-		return (Utils.alphaChars(tmpFirst).length() >= 2 && Utils.alphaChars(
-				tmpLast).length() >= 2)
-				|| Utils.alphaChars(tmpRaw).length() >= 4;
+		return (Utils.alphaChars(tmpFirst).length() >= 1 || Utils.alphaChars(
+				tmpLast).length() >= 1)
+				|| Utils.alphaChars(tmpRaw).length() >= 1;
 	}
 
 	public static class Builder {

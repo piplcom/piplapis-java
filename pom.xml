@@ -9,8 +9,13 @@
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Java client library for the Pipl search API.</description>
-    <url>https://pipl.com/dev/</url>
-    <scm><url>https://github.com/piplcom/piplapis-java</url></scm>
+    <url>https://pipl.com/api/</url>
+    
+    <scm>
+        <connection>scm:git:git@github.com:piplcom/piplapis-java.git</connection>
+        <developerConnection>scm:git:git@github.com:piplcom/piplapis-java.git</developerConnection>
+        <url>git@github.com:piplcom/piplapis-java.git</url>
+    </scm>
 
     <licenses>
         <license>
@@ -102,6 +107,17 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
             </plugin>
         </plugins>
     </build>

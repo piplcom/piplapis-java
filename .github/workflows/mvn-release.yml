@@ -52,8 +52,8 @@ jobs:
           sudo apt install gnupg
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import --no-tty --batch --yes
-          echo ${{secrets.GPG_PUBLIC}} | base64 -d
-          gpg -k
+          echo ${{secrets.GPG_PUBLIC}}
+          gpg --list-keys
           gpg --keyserver keyserver.ubuntu.com --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           gpg --keyserver keys.openpgp.org --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           gpg --keyserver pool.sks-keyservers.net --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39

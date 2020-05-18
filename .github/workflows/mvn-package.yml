@@ -48,3 +48,11 @@ jobs:
           git config --global user.signingkey ${{secrets.GPG_KEY_ID}}
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
           mvn package -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'
+
+      - name: Maven build
+        run: |
+          git config --global commit.gpgsign true
+          git config --global user.signingkey ${{secrets.GPG_KEY_ID}}
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import -no-tty --batch --yes
+          mvn release -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'
+      

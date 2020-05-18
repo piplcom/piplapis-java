@@ -3,7 +3,7 @@ name: mvn release
 on:
   push:
     branches:
-      - feature/sign
+      - master
 
 jobs:
   build:

@@ -23,7 +23,7 @@ jobs:
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@4637f7c31534ec06928b10da807735657a921266
         with:
-          servers: '[{ "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }]'
+          servers: '[ {"id": "ossrh", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }, { "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "central-release", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }]'
 
       - name: print metadata
         run: echo ${{github.ref}}
@@ -52,5 +52,10 @@ jobs:
           dist_repo='<distributionManagement><repository><id>github-snapshot<\/id><name>GitHub piplcom snapshot<\/name><url>https:\/\/maven.pkg.github.com\/piplcom\/maven-packages\/<\/url><uniqueVersion>true<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
+      - name: Import key
+        run: |
+          sudo apt install gnupg
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
+
       - name: Maven build and deploy
-        run: mvn deploy -Dmaven.test.skip=true
+        run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

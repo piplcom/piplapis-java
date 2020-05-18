@@ -55,7 +55,7 @@ jobs:
       - name: Import key
         run: |
           sudo apt install gnupg
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
 
       - name: Maven build and deploy
         run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

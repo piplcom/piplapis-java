@@ -1,4 +1,4 @@
-name: mvn deploy
+name: mvn private deploy
 
 on:
   push:
@@ -53,4 +53,7 @@ jobs:
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
       - name: Maven build and deploy
-        run: mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg
+        run: |
+          sudo apt install gnupg
+          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
+          mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

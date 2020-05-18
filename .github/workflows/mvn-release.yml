@@ -53,6 +53,6 @@ jobs:
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import --no-tty --batch --yes
           gpg -k
-          gpg --keyserver keyserver.ubuntu.com --send-keys FE7F1CCBD32C9A39
+          gpg --keyserver keyserver.ubuntu.com --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'
 

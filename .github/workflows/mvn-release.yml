@@ -41,7 +41,7 @@ jobs:
           sed -i "s/-SNAPSHOT<\/version>/-$build_date-$branch_name<\/version>/1" pom.xml
 
       - name: Set distribution repo
-        # if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         run: |
           find_token='<distributionManagement\/>'
           dist_repo='<distributionManagement><repository><id>central-release<\/id><name>Maven Central via sonatype.org<\/name><url>https:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url><uniqueVersion>false<\/uniqueVersion><\/repository><\/distributionManagement>'

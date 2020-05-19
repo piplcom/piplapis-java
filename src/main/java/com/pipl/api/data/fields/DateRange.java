@@ -72,6 +72,7 @@ public class DateRange implements Serializable {
 	 *         otherwise.
 	 */
 	public boolean isExact() {
+		if(start == null || end == null) return false;
 		return start.equals(end);
 	}
 

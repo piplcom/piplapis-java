@@ -35,3 +35,6 @@ target/
 
 # Maven
 dependency-reduced-pom.xml
+
+
+.vscode/

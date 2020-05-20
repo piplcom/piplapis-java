@@ -47,6 +47,13 @@ jobs:
           dist_repo='<distributionManagement><repository><id>central-release<\/id><name>Maven Central via sonatype.org<\/name><url>https:\/\/oss.sonatype.org\/service\/local\/staging\/deploy\/maven2\/<\/url><uniqueVersion>false<\/uniqueVersion><\/repository><\/distributionManagement>'
           sed -i "s/$find_token/$dist_repo/1" pom.xml
 
+      - name: Set release plugin
+        if: github.ref == 'refs/heads/master'
+        run: |
+          find_token='<!-- RELEASE PLUGIN PLACEHOLDER -->'
+          release_plugin='<plugin><groupId>org.sonatype.plugins<\/groupId><artifactId>nexus-staging-maven-plugin<\/artifactId><version>1.6.7<\/version><extensions>true<\/extensions><configuration><serverId>ossrh<\/serverId><nexusUrl>https:\/\/oss.sonatype.org\/<\/nexusUrl><autoReleaseAfterClose>true<\/autoReleaseAfterClose><\/configuration><\/plugin>'
+          sed -i "s/$find_token/release_plugin/1" pom.xml
+
       - name: Maven build and deploy
         run: |
           sudo apt install gnupg
@@ -58,4 +65,3 @@ jobs:
           gpg --keyserver keys.openpgp.org --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           gpg --keyserver pool.sks-keyservers.net --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'
-

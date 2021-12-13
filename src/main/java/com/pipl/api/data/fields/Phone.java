@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Phone extends AbstractField {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Expose
@@ -28,18 +28,21 @@ public class Phone extends AbstractField {
 	@Expose
 	@SerializedName("display_international")
 	public String displayInternational;
+	@Expose
+	@SerializedName("@do_not_call")
+	public Boolean doNotCall;
 
 	public Phone() {
 	}
-	
+
 	/**
 	 * @param raw
-	 *            This value will be parsed by Pipl. 
+	 *            This value will be parsed by Pipl.
 	 */
 	public Phone(String raw) {
 		setRaw(raw);
 	}
-	
+
 	/**
 	 * @param countryCode
 	 *            countryCode
@@ -84,7 +87,7 @@ public class Phone extends AbstractField {
 	}
 
 	/**
-	 * @return is this number a valid input to search by. 
+	 * @return is this number a valid input to search by.
 	 */
 	public boolean isSearchable() {
 		return number!=null || (raw!=null && !raw.isEmpty());
@@ -124,6 +127,10 @@ public class Phone extends AbstractField {
 
 	public String getType() {
 		return type;
+	}
+
+	public Boolean getDoNotCall() {
+		return doNotCall;
 	}
 
 	public String getDisplay() {

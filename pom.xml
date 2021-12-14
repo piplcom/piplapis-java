@@ -103,6 +103,8 @@
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
                                 <arg>loopback</arg>
+                                <arg>--default-key</arg>
+                                <arg>FE7F1CCBD32C9A39</arg>
                             </gpgArguments>
                         </configuration>
                     </execution>

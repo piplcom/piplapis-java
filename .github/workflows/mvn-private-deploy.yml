@@ -23,7 +23,7 @@ jobs:
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@4637f7c31534ec06928b10da807735657a921266
         with:
-          servers: '[ {"id": "ossrh", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }, { "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "central-release", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }]'
+          servers: '[ {"id": "ossrh", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }, { "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "central-release", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }]'
 
       - name: print metadata
         run: echo ${{github.ref}}
@@ -54,6 +54,13 @@ jobs:
 
       - name: Maven build and deploy
         run: |
+          # echo "GPG_SECRET_NEW"
+          # echo ${{secrets.GPG_SECRET_NEW}} | sed 's/./& /g'         
+          # echo "GPG_PASSPHRASE"
+          # echo ${{secrets.GPG_PASSPHRASE}} | sed 's/./& /g'                   
+          sudo apt-get update
+          sudo apt-get install ca-certificates -y       
+          
           sudo apt install gnupg
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
+          echo ${{secrets.GPG_SECRET_NEW}} | base64 -d | gpg --import --no-tty --batch --yes
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

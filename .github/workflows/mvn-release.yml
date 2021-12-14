@@ -56,6 +56,8 @@ jobs:
 
       - name: Maven build and deploy
         run: |
+          sudo apt-get update
+          sudo apt-get install ca-certificates -y                
           sudo apt install gnupg
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import --no-tty --batch --yes

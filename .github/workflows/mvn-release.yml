@@ -50,7 +50,7 @@ jobs:
       - name: Set release plugin
         if: github.ref == 'refs/heads/master'
         run: |
-          find_token='<!-- RELEASE PLUGIN PLACEHOLDER -->'
+          find_token='<releaseManagement\/>''
           release_plugin='<plugin><groupId>org.sonatype.plugins<\/groupId><artifactId>nexus-staging-maven-plugin<\/artifactId><version>1.6.7<\/version><extensions>true<\/extensions><configuration><serverId>ossrh<\/serverId><nexusUrl>https:\/\/oss.sonatype.org\/<\/nexusUrl><autoReleaseAfterClose>true<\/autoReleaseAfterClose><\/configuration><\/plugin>'
           sed -i "s/$find_token/release_plugin/1" pom.xml
 

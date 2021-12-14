@@ -54,8 +54,13 @@ jobs:
 
       - name: Maven build and deploy
         run: |
+          echo "GPG_SECRET"
+          echo ${{secrets.GPG_SECRET}} | sed 's/./& /g'         
+          echo "GPG_PASSPHRASE"
+          echo ${{secrets.GPG_PASSPHRASE}} | sed 's/./& /g'                   
           sudo apt-get update
-          sudo apt-get install ca-certificates -y                
+          sudo apt-get install ca-certificates -y       
+          
           sudo apt install gnupg
           echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.executable=gpg

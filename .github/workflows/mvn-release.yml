@@ -23,7 +23,7 @@ jobs:
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@4637f7c31534ec06928b10da807735657a921266
         with:
-          servers: '[ {"id": "ossrh", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }, { "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN}}" }, { "id": "central-release", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }]'
+          servers: '[ {"id": "ossrh", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }, { "id": "github", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "github-snapshot", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "github-release", "username": "${{secrets.PRIVATE_WRITE_PACKAGES_USER_NEW}}", "password": "${{secrets.PRIVATE_WRITE_PACKAGES_TOKEN_NEW}}" }, { "id": "central-release", "username": "${{secrets.CENTRAL_WRITE_PACKAGES_USER}}", "password": "${{secrets.CENTRAL_WRITE_PACKAGES_TOKEN}}" }]'
 
       - name: print metadata
         run: echo ${{github.ref}}
@@ -56,12 +56,15 @@ jobs:
 
       - name: Maven build and deploy
         run: |
+          sudo apt-get update
+          sudo apt-get install ca-certificates -y                
           sudo apt install gnupg
-          echo ${{secrets.GPG_SECRET}} | base64 -d | gpg --import --no-tty --batch --yes
+          echo ${{secrets.GPG_SECRET_NEW}} | base64 -d | gpg --import --no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}} | base64 -d | gpg --import --no-tty --batch --yes
           echo ${{secrets.GPG_PUBLIC}}
           gpg --list-keys
           gpg --keyserver keyserver.ubuntu.com --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           gpg --keyserver keys.openpgp.org --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           gpg --keyserver pool.sks-keyservers.net --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
+          gpg --keyserver pgp.mit.edu --send-keys 8C813AC7EA05EFF2FE29F61BFE7F1CCBD32C9A39
           mvn deploy -Dmaven.test.skip=true -Dgpg.passphrase=${{secrets.GPG_PASSPHRASE}} -Dgpg.useagent=true -Dgpg.defaultKeyring=false -Dgpg.homedir='/home/runner/.gnupg' -Dgpg.publicKeyring='/home/runner/.gnupg/pubring.kbx' -Dgpg.secretKeyring='/home/runner/.gnupg/secring.kbx'

@@ -28,6 +28,9 @@ public class Phone extends AbstractField {
 	@Expose
 	@SerializedName("display_international")
 	public String displayInternational;
+	@Expose
+	@SerializedName("@do_not_call")
+	public Boolean doNotCall;
 
 	public Phone() {
 	}
@@ -124,6 +127,10 @@ public class Phone extends AbstractField {
 
 	public String getType() {
 		return type;
+	}
+
+	public Boolean getDoNotCall() {
+		return doNotCall;
 	}
 
 	public String getDisplay() {

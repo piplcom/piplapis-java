@@ -23,6 +23,11 @@ public class AvailableData implements Serializable {
         public int addresses;
         @Expose
         public int phones;
+
+        @Expose
+        @SerializedName("voip_phones")
+        public int voipPhones;
+
         @Expose
         @SerializedName("mobile_phones")
         public int mobilePhones;
@@ -31,6 +36,15 @@ public class AvailableData implements Serializable {
         public int landlinePhones;
         @Expose
         public int emails;
+
+        @Expose
+        @SerializedName("personal_emails")
+        public int personalEmails;
+
+        @Expose
+        @SerializedName("work_emails")
+        public int workEmails;
+
         @Expose
         public int jobs;
         @Expose
@@ -61,6 +75,9 @@ public class AvailableData implements Serializable {
         @SerializedName("social_profiles")
         public int socialProfiles;
 
+        @Expose
+        public int vehicles;
+
         public FieldCount() {
         }
 
@@ -84,8 +101,20 @@ public class AvailableData implements Serializable {
             return landlinePhones;
         }
 
+        public int getVoipPhones() {
+            return voipPhones;
+        }
+
         public int getEmails() {
             return emails;
+        }
+
+        public int getPersonalEmails() {
+            return personalEmails;
+        }
+
+        public int getWorkEmails() {
+            return workEmails;
         }
 
         public int getJobs() {
@@ -141,6 +170,10 @@ public class AvailableData implements Serializable {
          */
         public int getSocialProfiles() {
             return socialProfiles;
+        }
+
+        public int getVehicles() {
+            return vehicles;
         }
     }
 

@@ -32,6 +32,9 @@ public class Phone extends AbstractField {
 	@SerializedName("@do_not_call")
 	public Boolean doNotCall;
 
+	@Expose
+	public Boolean voip;
+
 	public Phone() {
 	}
 	
@@ -131,6 +134,9 @@ public class Phone extends AbstractField {
 
 	public Boolean getDoNotCall() {
 		return doNotCall;
+	}
+	public Boolean getVoip() {
+		return voip;
 	}
 
 	public String getDisplay() {

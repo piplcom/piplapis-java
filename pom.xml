@@ -4,7 +4,7 @@
 
     <groupId>com.pipl.api</groupId>
     <artifactId>piplapis</artifactId>
-    <version>6.0.0-SNAPSHOT</version><!-- `-SNAPSHOT` is replaced during build -->
+    <version>5.1.0-SNAPSHOT</version><!-- `-SNAPSHOT` is replaced during build -->
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>

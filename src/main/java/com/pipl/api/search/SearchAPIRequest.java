@@ -124,7 +124,8 @@ public class SearchAPIRequest {
     public SearchAPIRequest(String firstName, String middleName,
                             String lastName, String rawName, String email, String phone,
                             String username, String country, String state, String city,
-                            String rawAddress, Integer fromAge, Integer toAge, SearchConfiguration configuration) {
+                            String rawAddress, Integer fromAge, Integer toAge, String vin,
+                            SearchConfiguration configuration) {
         ArrayList<Field> fields = new ArrayList<Field>();
         if (!Utils.isNullOrEmpty(firstName) || !Utils.isNullOrEmpty(middleName)
                 || !Utils.isNullOrEmpty(lastName)) {
@@ -155,7 +156,13 @@ public class SearchAPIRequest {
             fields.add(DOB.fromAgeRange(fromAge == null ? 0 : fromAge,
                     toAge == null ? 1000 : toAge));
         }
+
+        if (!Utils.isNullOrEmpty(vin)) {
+            fields.add(new Vehicle(vin));
+        }
+
         person = new Person(fields);
+
         setConfiguration(configuration);
     }
 
@@ -164,7 +171,7 @@ public class SearchAPIRequest {
                 builder.lastName, builder.rawName, builder.email,
                 builder.phone, builder.username, builder.country,
                 builder.state, builder.city, builder.rawAddress,
-                builder.fromAge, builder.toAge, builder.configuration);
+                builder.fromAge, builder.toAge, builder.vin, builder.configuration);
     }
 
     /****
@@ -186,6 +193,9 @@ public class SearchAPIRequest {
         private String rawAddress;
         private Integer fromAge;
         private Integer toAge;
+
+        private String vin;
+
         private SearchConfiguration configuration;
 
         public Builder city(String city) {
@@ -258,6 +268,11 @@ public class SearchAPIRequest {
             return this;
         }
 
+        public Builder vin(String vin) {
+            this.vin = vin;
+            return this;
+        }
+
         public SearchAPIRequest build() {
             return new SearchAPIRequest(this);
         }
@@ -281,7 +296,7 @@ public class SearchAPIRequest {
         }
         if (!person.isSearchable()) {
             throw new IllegalArgumentException(
-                    "No valid name/username/phone/email in request");
+                    "No valid name/username/phone/email/vin in request");
         }
         if (strict && !person.unsearchableFields().isEmpty()) {
             throw new IllegalArgumentException("Some fields are unsearchable: "
@@ -302,11 +317,12 @@ public class SearchAPIRequest {
      * Calling this method blocks the program until the response is returned, if
      * you want the request to be sent asynchronously please refer to the
      * sendAsync method.
+     *
      * @param strictValidation passed to the validateQueryParams method.
      * @return The response is returned as a SearchAPIResponse object.
      * @throws IllegalArgumentException Raises IllegalArgumentException (raised from validateQueryParams)
-     * @throws IOException IOException
-     * @throws SearchAPIError SearchAPIError (when the response is returned but contains an error).
+     * @throws IOException              IOException
+     * @throws SearchAPIError           SearchAPIError (when the response is returned but contains an error).
      */
     public SearchAPIResponse send(boolean strictValidation)
             throws SearchAPIError, IOException {
@@ -411,6 +427,7 @@ public class SearchAPIRequest {
 
     /**
      * Same as sendAsync(boolean strictValidation) but with strictValidation=true
+     *
      * @return request
      */
     public CallableSearchRequest sendAsync() {

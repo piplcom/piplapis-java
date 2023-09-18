@@ -1,5 +1,7 @@
 package com.pipl.api.search;
 
+import com.pipl.api.data.Utils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -16,6 +18,8 @@ import java.net.URLEncoder;
  * one of the send() methods.
  */
 public class SearchConfiguration {
+
+	public static final String DEFAULT_API_VERSION = "5";
 	public static final String ALL_SOURCES = "all";
 	public static final String MATCHING_SOURCES = "matching";
 	public static final String DEFAULT_PROTOCOL = "https";
@@ -26,6 +30,9 @@ public class SearchConfiguration {
 	public String host = DEFAULT_HOST;
 	public String path = DEFAULT_PATH;
 	public String apiKey = DEFAULT_KEY;
+
+	public String apiVersion = DEFAULT_API_VERSION;
+
 	public Float minimumProbability;
 	public Float minimumMatch;
 	public Boolean topMatch;
@@ -66,7 +73,8 @@ public class SearchConfiguration {
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
 			String matchRequirements, String sourceCategoryRequirements) {
-		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements);
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds,
+				matchRequirements);
 		setSourceCategoryRequirements(sourceCategoryRequirements);
 	}
 
@@ -74,7 +82,8 @@ public class SearchConfiguration {
 			String apiKey, float minimumProbability, String showSources,
 			boolean hideSponsored, float minimumMatch, boolean liveFeeds,
 			String matchRequirements, String sourceCategoryRequirements, boolean inferPersons) {
-		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds, matchRequirements, sourceCategoryRequirements);
+		this(protocol, host, path, apiKey, minimumProbability, showSources, hideSponsored, minimumMatch, liveFeeds,
+				matchRequirements, sourceCategoryRequirements);
 		setInferPersons(inferPersons);
 	}
 
@@ -92,6 +101,9 @@ public class SearchConfiguration {
 		this.matchRequirements = builder.matchRequirements;
 		this.sourceCategoryRequirements = builder.sourceCategoryRequirements;
 		this.inferPersons = builder.inferPersons;
+
+		if (!Utils.isNullOrEmpty(builder.apiVersion))
+        	this.apiVersion = builder.apiVersion;
 	}
 
 	/**
@@ -300,7 +312,7 @@ public class SearchConfiguration {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(protocol).append("://").append(host).append(path)
+		sb.append(protocol).append("://").append(host).append(path).append("v" + apiVersion + "/")
 		.append("?key=").append(apiKey);
 		if (minimumProbability!=null) {
 			sb.append("&minimum_probability=").append(String.valueOf(minimumProbability));
@@ -335,12 +347,15 @@ public class SearchConfiguration {
                 throw new AssertionError("UTF-8 is unknown");
             }
 		}
+
 		if (inferPersons!=null) {
 			sb.append("&infer_persons=").append(String.valueOf(inferPersons));
 		}
+
 		if (extraParams!=null) {
 			sb.append(extraParams);
 		}
+
 		return sb.toString();
 	}
 
@@ -349,6 +364,7 @@ public class SearchConfiguration {
 		private String host = DEFAULT_HOST;
 		private String path = DEFAULT_PATH;
 		private String apiKey = DEFAULT_KEY;
+		private String apiVersion;
 		private Float minimumProbability;
 		private Boolean topMatch;
 		private String showSources;
@@ -376,6 +392,11 @@ public class SearchConfiguration {
 
 		public Builder apiKey(String apiKey) {
 			this.apiKey = apiKey;
+			return this;
+		}
+
+		public Builder apiVersion(String apiVersion) {
+			this.apiVersion = apiVersion;
 			return this;
 		}
 

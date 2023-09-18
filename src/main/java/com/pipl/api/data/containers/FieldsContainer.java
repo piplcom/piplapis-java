@@ -7,23 +7,7 @@ import java.util.Collection;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.pipl.api.data.fields.Address;
-import com.pipl.api.data.fields.DOB;
-import com.pipl.api.data.fields.Education;
-import com.pipl.api.data.fields.Email;
-import com.pipl.api.data.fields.Ethnicity;
-import com.pipl.api.data.fields.Field;
-import com.pipl.api.data.fields.Gender;
-import com.pipl.api.data.fields.Image;
-import com.pipl.api.data.fields.Job;
-import com.pipl.api.data.fields.Language;
-import com.pipl.api.data.fields.Name;
-import com.pipl.api.data.fields.OriginCountry;
-import com.pipl.api.data.fields.Phone;
-import com.pipl.api.data.fields.Tag;
-import com.pipl.api.data.fields.Url;
-import com.pipl.api.data.fields.UserID;
-import com.pipl.api.data.fields.Username;
+import com.pipl.api.data.fields.*;
 
 /**
  * The base class of Record and Person, made only for inheritance.
@@ -66,6 +50,10 @@ public class FieldsContainer implements Serializable {
 	public ArrayList<Relationship> relationships;
 	@Expose
 	public ArrayList<Tag> tags;
+
+	@Expose
+	public ArrayList<Vehicle> vehicles;
+
 	@Expose
 	public DOB dob;
 	@Expose
@@ -87,6 +75,7 @@ public class FieldsContainer implements Serializable {
 		urls = new ArrayList<Url>();
 		relationships = new ArrayList<Relationship>();
 		tags = new ArrayList<Tag>();
+		vehicles = new ArrayList<Vehicle>();
 	}
 
 	public FieldsContainer(Collection<Field> fields) {
@@ -135,6 +124,8 @@ public class FieldsContainer implements Serializable {
 				relationships.add((Relationship) field);
 			} else if (field instanceof Tag) {
 				tags.add((Tag) field);
+			} else if (field instanceof Vehicle) {
+				vehicles.add((Vehicle) field);
 			}
 		}
 	}
@@ -163,6 +154,8 @@ public class FieldsContainer implements Serializable {
 		fields.addAll(urls);
 		fields.addAll(relationships);
 		fields.addAll(tags);
+		fields.addAll(vehicles);
+
 		return fields;
 	}
 
@@ -232,6 +225,9 @@ public class FieldsContainer implements Serializable {
 
 	public ArrayList<Tag> getTags() {
 		return tags;
+	}
+	public ArrayList<Vehicle> getVehicles() {
+		return vehicles;
 	}
 
 	public void setNames(ArrayList<Name> names) {
@@ -315,6 +311,12 @@ public class FieldsContainer implements Serializable {
 		}
 		for (Address address : getAddresses()) {
 			if (address.isViableAddressSearch()) {
+				return true;
+			}
+		}
+
+		for (Vehicle vehicle : getVehicles()) {
+			if (vehicle.isSearchable()) {
 				return true;
 			}
 		}

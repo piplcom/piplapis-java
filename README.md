@@ -10,7 +10,7 @@ Library Requirements
 --------------------
 
 * Google Gson, you can find it inside this project under `lib/google/` or download from [here](http://code.google.com/p/google-gson/downloads/list).
-* The library was tested on Java 7 but will probably work on earlier versions as well.
+* The library was tested on Java 8 and above.
 
 Installation
 ------------
